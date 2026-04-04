@@ -31,10 +31,10 @@
 ### Mac / Linux — one command, copy and paste into your terminal
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/drew-rewired/content-visibility-audit/main/content-audit-skill.md -o ~/.claude/skills/content-audit-skill.md
+mkdir -p ~/.claude/skills && curl -fsSL https://raw.githubusercontent.com/drew-rewired/content-visibility-audit/main/content-audit-skill.md -o ~/.claude/skills/content-audit-skill.md
 ```
 
-Creates the `skills` folder if it does not exist. Restart Claude Code after running. Onboarding starts automatically.
+Restart Claude Code after running. Onboarding starts automatically.
 
 ---
 
