@@ -4,11 +4,15 @@ This copyright notice must be preserved in all copies and derivative works, with
 Licensed under CC BY-NC 4.0 — free to use and modify; commercial use and resale prohibited.
 ---
 
+**Disclaimer:** This tool is free to use and provided as-is. Outputs are AI-generated and may contain errors or inaccuracies. Always verify data directly in your source systems (GA4, Semrush, Google Search Console) before making decisions. The creator assumes no responsibility for outcomes resulting from use of this tool's output.
+
+---
+
 # Content Visibility Audit
 
 **Slash command**: `/content-audit`
 **Reconfigure at any time**: `/content-audit-setup`
-**Version**: 1.0
+**Version**: 1.1
 
 ---
 
@@ -54,10 +58,11 @@ The operating principle: most content programs are built around creating. This o
 
 **On every invocation, check first:**
 
-Look for a file called `content-audit-config.json` in the current project directory.
+Look for a file matching the pattern `content-audit/*/content-audit-config.json` in the current working directory. The config lives inside the domain subfolder, not at the project root.
 
-- **If the file does not exist**: Onboarding has not been completed. Begin the onboarding flow immediately. Do not wait for a slash command.
-- **If the file exists**: Configuration is saved. Skip onboarding entirely. Load the saved configuration silently and go straight to the audit prompt: "Welcome back. What are we auditing today? You can drop in a URL, upload a PDF, paste a list of URLs, or type 'full audit' to run your complete content program."
+- **If no matching file exists**: Onboarding has not been completed. Begin the onboarding flow immediately. Do not wait for a slash command.
+- **If a matching file exists**: Configuration is saved. Skip onboarding entirely. Load the saved configuration silently and go straight to the audit prompt: "Welcome back. What are we auditing today? You can drop in a URL, upload a PDF, paste a list of URLs, or type 'full audit' to run your complete content program."
+- **If multiple matching files exist** (more than one domain has been audited): List the available domains and ask: "Which domain are you auditing today?" Load the selected config only after the user confirms.
 
 ---
 
@@ -71,7 +76,9 @@ Greet the user when onboarding begins:
 >
 > Let's get you set up. I will ask a few questions in two phases: first your technical connections, then a bit of context about your brand. You can skip any step — I will flag what will be limited and keep moving. The only thing I need to run at all is your domain.
 >
-> Your answers will be saved locally to `content-audit-config.json`. You can update any part of your configuration at any time by typing `/content-audit-setup`."
+> Your answers will be saved locally to `content-audit-config.json`. You can update any part of your configuration at any time by typing `/content-audit-setup`.
+>
+> A note before we begin: audit outputs are AI-generated and may contain errors. Verify all data in your source systems before acting on any recommendation. This tool is for informational use only."
 
 ---
 
@@ -87,9 +94,11 @@ This is the only required field. If the user skips this or enters nothing, ask o
 
 **Step 2 — GA4**
 
-Ask: "Do you have access to GA4 for this domain? If yes, share your GA4 Property ID. You can find it in GA4 under Admin → Property Settings → Property ID. It is a number like `123456789`."
+Ask: "Do you have access to GA4 for this domain? If GA4 is connected via Claude MCP, just say 'MCP' — no Property ID or API setup required. Otherwise, share your GA4 Property ID (found in GA4 under Admin → Property Settings → Property ID — a number like `123456789`)."
 
-Also ask: "Have you enabled the Google Analytics Data API in Google Cloud Console?"
+If the user says "MCP": save `ga4_connection: "mcp"` to config and move to Step 3 without asking about API setup.
+
+If the user provides a Property ID: also ask "Have you enabled the Google Analytics Data API in Google Cloud Console?" and save accordingly.
 
 If skipped or unavailable, display this callout and move to Step 3:
 
@@ -209,13 +218,15 @@ Ask: "Last question — is there anything else that would help me understand you
 
 ---
 
-### Config Save and Restart
+### Config Save
 
-When all steps are complete, save everything to `content-audit-config.json` in the current project directory. Then tell the user:
+**Sequencing rule:** Do not ask the audit mode question (Full inventory / Single asset diagnostic) until all 11 onboarding steps are complete. Phase 2 (Steps 6–11) cannot be skipped or batched. Each step must be asked and resolved individually before moving to the next. The audit mode question is the first prompt *after* setup is fully saved.
 
-> "Setup complete. Your configuration has been saved to `content-audit-config.json`.
+When all steps are complete, save everything to `content-audit/{domain}/content-audit-config.json` (creating the folder if it does not exist). Then tell the user:
+
+> "Setup complete. Your configuration is saved.
 >
-> Restart Claude Code and type `/content-audit` to begin your first audit.
+> Type 'run audit' or 'full audit' to begin.
 >
 > **You can update any part of your setup at any time by typing `/content-audit-setup`. This includes credentials, brand context, audience information, competitors, and any additional context you provided.**"
 
@@ -267,19 +278,28 @@ When reconfiguration is complete, save the updated config and display:
 
 ## Audit Entry Points
 
-<!-- When the user types `/content-audit` after setup is complete, ask them one question to determine which mode to run. Route based on their answer. All three modes run through the same nine audit layers at different scales. -->
+<!-- When the user types `/content-audit` after setup is complete, ask them one question to determine which mode to run. Route based on their answer. Both modes run through the same nine audit layers at different scales. -->
 
 Ask: "How do you want to start?
 
-- **Full inventory**: Drop in your complete content inventory as a CSV, spreadsheet, or list of URLs. I will map everything.
-- **Build from Search Console**: Paste in a few URLs you know about. I will use Search Console data to surface indexed pages and build the inventory from there.
+- **Full inventory**: If GA4 or Search Console is connected, I will build the inventory automatically from those sources — no upload needed. If neither is available, drop in your complete content inventory as a CSV, spreadsheet, or list of URLs.
 - **Single asset diagnostic**: Share one URL or upload one PDF. I will run a deep diagnostic on that asset."
 
 Route to the correct mode based on their answer.
 
 ---
 
+## Output Folder
+
+All audit outputs — including `content-audit-config.json`, reports, and any exports — are saved to a folder named `content-audit/{domain}/` created in the current working directory. Replace `{domain}` with the audited domain (e.g., `content-audit/yourbrand.com/`).
+
+Before saving any file, check whether this folder exists. If it does not exist, create it. Never save audit outputs to the root of the working directory or any other location.
+
+---
+
 ## The Nine Audit Layers
+
+**Context isolation rule:** Do not use any pre-existing project files, content inventories, or prior session context as audit inputs. All data must come from configured data sources (GA4, Search Console, Semrush) or be explicitly provided by the user during the active audit session. If no data source is connected and the user has not provided input, prompt for input rather than inferring from context.
 
 <!-- These nine layers run in order regardless of which mode was selected. For a single asset diagnostic, each layer is scoped to that asset. For a full inventory, each layer runs across the full content set. When a data source is unavailable, display the mid-audit callout and proceed with the data that is available. -->
 
@@ -287,7 +307,7 @@ Route to the correct mode based on their answer.
 
 ### Layer 1 — Content Inventory
 
-Accept whatever format the user provides. If they provide a domain only, use Search Console data to surface indexed pages and build the inventory from there. If Search Console is unavailable, ask the user to paste in their known URLs or upload a site export.
+Accept whatever format the user provides. If they provide a domain only, use Search Console data to surface indexed pages and build the inventory from there. If Search Console is unavailable, use GA4 data — pull all pages with recorded sessions as the inventory base. Only ask the user to paste in known URLs or upload a site export if both Search Console and GA4 are unavailable.
 
 The goal: a working list of every content asset before anything else is evaluated. Do not begin funnel mapping until the inventory is complete.
 
@@ -356,6 +376,10 @@ For every identified gap, flag:
 ---
 
 ### Layer 6 — EEAT and AEO Scrub
+
+**Crawl before scoring.** Before evaluating any asset, fetch its full page content using WebFetch. Scores must be based on actual page content — not inferred from titles, URLs, or metadata alone. If a page returns an error or is inaccessible, note it and move to the next asset.
+
+**Scale handling.** For inventories larger than 30 assets, prioritize crawling by funnel stage and GA4 traffic rank — MOFU assets first, then high-traffic TOFU, then BOFU. For assets beyond the crawl window, score structurally using URL patterns, page titles, and GA4 metadata, and note which scores are structural estimates vs. full crawl assessments.
 
 Evaluate every asset against two frameworks simultaneously.
 
@@ -429,9 +453,13 @@ Deliver a prioritized content map structured around action, not data. Every item
 
 5. **Rationale**: Every recommendation must include a one- to two-sentence rationale. No unexplained flags. No generic advice.
 
+Save the full audit output as `content-audit-report.md` in the `content-audit/{domain}/` folder. If the user requests a formatted visual report, save as `content-audit-report.html` instead. Also display a concise summary in-chat.
+
 Close every audit output with:
 
 > "When you are ready to extend the life of any asset through repurposing across channels — email, social, paid, event content, or partner distribution — install the Content Repurpose Skill, available in the `bonus/` folder of the content-visibility-audit repo."
+
+> **Disclaimer:** This audit is AI-generated and provided as-is. Outputs may contain errors or inaccuracies. Verify all data in GA4, Semrush, or Search Console before acting on any recommendation. The creator assumes no liability for decisions made based on this report.
 
 ---
 
