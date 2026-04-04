@@ -16,7 +16,7 @@
 
 <br>
 
-<img src="https://img.shields.io/badge/version-1.0-000000?style=flat-square" alt="version">&nbsp;<img src="https://img.shields.io/badge/free-open%20source-111111?style=flat-square" alt="free">&nbsp;<img src="https://img.shields.io/badge/Claude%20Code-skill-CC0000?style=flat-square" alt="Claude Code skill">
+<img src="https://img.shields.io/badge/version-1.1-000000?style=flat-square" alt="version">&nbsp;<img src="https://img.shields.io/badge/free-open%20source-111111?style=flat-square" alt="free">&nbsp;<img src="https://img.shields.io/badge/Claude%20Code-skill-CC0000?style=flat-square" alt="Claude Code skill">
 
 <br>
 
@@ -85,12 +85,12 @@ Nine layers run in sequence, regardless of whether you are auditing a single ass
 
 | Layer | What it does |
 |---|---|
-| 1. Content inventory | Builds a working list of every asset from what you provide or Search Console data |
+| 1. Content inventory | Builds a working list from Search Console, GA4, or a manual upload — in that fallback order |
 | 2. Funnel mapping | Assigns every asset to TOFU, MOFU, or BOFU based on topic and intent |
 | 3. Gating audit | Flags every gated asset as a visibility problem, not a lead gen feature |
 | 4. Three-source triangulation | Combines GA4 (behavior), Search Console (visibility), and Semrush (intent) |
 | 5. Competitor gap analysis | Identifies what competitors rank for that your program is not covering |
-| 6. EEAT + AEO scrub | Scores each asset for Google quality signals and AI answer extractability |
+| 6. EEAT + AEO scrub | Fetches and scores each page for Google quality signals and AI answer extractability |
 | 7. Gap identification | Shows what is missing in the sequence a buyer would actually follow |
 | 8. Repurposing layer | Checks whether existing assets can fill gaps before recommending new production |
 | 9. Output | Prioritized action plan: fix, reposition, ungate, or produce — in that order |
@@ -99,9 +99,20 @@ Nine layers run in sequence, regardless of whether you are auditing a single ass
 
 ## How it works
 
-After install, onboarding starts automatically on the next Claude Code launch — no slash command needed the first time. You will be walked through two setup phases: technical connections (GA4, Search Console, Semrush, competitors) and brand configuration (audience, ICP, voice, goals, plus a free-text additional context field). The only required answer is your domain. Everything else is optional — skipped steps are flagged and the setup keeps moving. Configuration saves locally to `content-audit-config.json`.
+After install, onboarding starts automatically on the next Claude Code launch — no slash command needed the first time. You will be walked through two setup phases: technical connections (GA4, Search Console, Semrush, competitors) and brand configuration (audience, ICP, voice, goals, and a free-text additional context field). The only required answer is your domain. Everything else is optional — skipped steps are flagged and the setup keeps moving.
 
-After that, type `/content-audit` to start an audit. Type `/content-audit-setup` at any time to update credentials, brand context, or anything else.
+Configuration saves to `content-audit/{domain}/content-audit-config.json` in your current working directory. If you have audited multiple domains, the skill will ask which one you want to work with at launch.
+
+After setup, type 'run audit' or 'full audit' to begin. Type `/content-audit-setup` at any time to update credentials, brand context, or anything else.
+
+---
+
+## Audit modes
+
+Two modes available after setup:
+
+- **Full inventory** — If GA4 or Search Console is connected, the inventory is built automatically from those sources. If neither is available, drop in a CSV, spreadsheet, or list of URLs.
+- **Single asset diagnostic** — Share one URL or upload one PDF for a deep diagnostic on that asset.
 
 ---
 
@@ -111,12 +122,18 @@ After that, type `/content-audit` to start an audit. Type `/content-audit-setup`
 - A domain to audit
 
 **Optional but recommended:**
-- GA4 Property ID + Google Analytics Data API enabled
+- GA4 Property ID + Google Analytics Data API enabled — *or* GA4 connected via Claude MCP (just say "MCP" during setup to skip manual configuration)
 - Google Search Console API credentials (service account JSON via Google Cloud Console)
 - Semrush API key
 - Up to five competitor domains
 
 The skill runs without the optional items. GA4 gives you behavioral signal. Search Console gives you visibility signal. Semrush gives you keyword intent and competitor gap data. Without them, the audit runs on structure alone — still useful, but less precise.
+
+---
+
+## Disclaimer
+
+Outputs are AI-generated and provided as-is. They may contain errors or inaccuracies. Always verify data directly in your source systems (GA4, Semrush, Google Search Console) before making decisions. The creator assumes no responsibility for outcomes resulting from use of this tool's output.
 
 ---
 
