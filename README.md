@@ -16,19 +16,47 @@
 
 <br>
 
-[![version](https://img.shields.io/badge/version-1.0-000000?style=flat-square)](https://github.com/drew-rewired/content-visibility-audit)&nbsp;[![free](https://img.shields.io/badge/free-open%20source-111111?style=flat-square)](https://github.com/drew-rewired/content-visibility-audit)&nbsp;[![Claude Code](https://img.shields.io/badge/Claude%20Code-skill-CC0000?style=flat-square)](https://github.com/drew-rewired/content-visibility-audit)
-
-<br>
-
-[![Install in Claude Code](https://img.shields.io/badge/%E2%96%B6%20%20INSTALL%20IN%20CLAUDE%20CODE-000000?style=for-the-badge)](claude://install-skill?url=https://raw.githubusercontent.com/drew-rewired/content-visibility-audit/main/content-audit-skill.md)
-
-*Opens Claude Code and installs automatically.*
+<img src="https://img.shields.io/badge/version-1.0-000000?style=flat-square" alt="version">&nbsp;<img src="https://img.shields.io/badge/free-open%20source-111111?style=flat-square" alt="free">&nbsp;<img src="https://img.shields.io/badge/Claude%20Code-skill-CC0000?style=flat-square" alt="Claude Code skill">
 
 <br>
 
 `/content-audit` &nbsp;·&nbsp; `/content-audit-setup`
 
 </div>
+
+---
+
+## Install
+
+### Mac / Linux — one command, copy and paste into your terminal
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/drew-rewired/content-visibility-audit/main/content-audit-skill.md -o ~/.claude/skills/content-audit-skill.md
+```
+
+Creates the `skills` folder if it does not exist. Restart Claude Code after running. Onboarding starts automatically.
+
+---
+
+### Windows — one command, paste into PowerShell
+
+```powershell
+curl.exe -fsSL https://raw.githubusercontent.com/drew-rewired/content-visibility-audit/main/content-audit-skill.md -o "$env:USERPROFILE\.claude\skills\content-audit-skill.md"
+```
+
+---
+
+### Manual download
+
+[**Download content-audit-skill.md →**](https://raw.githubusercontent.com/drew-rewired/content-visibility-audit/main/content-audit-skill.md) &nbsp;*(right-click → Save As)*
+
+[**Download full repo as .zip →**](https://github.com/drew-rewired/content-visibility-audit/archive/refs/heads/main.zip)
+
+Place the `.md` file in:
+- **Mac / Linux**: `~/.claude/skills/`
+- **Windows**: `%USERPROFILE%\.claude\skills\`
+
+Then restart Claude Code. Onboarding starts automatically.
 
 ---
 
@@ -53,7 +81,7 @@ This skill forces the audit before the output. It maps what you have, shows wher
 
 ## What it audits
 
-The skill runs nine layers in sequence, regardless of whether you are auditing a single asset or a full content inventory.
+Nine layers run in sequence, regardless of whether you are auditing a single asset or a full content inventory.
 
 | Layer | What it does |
 |---|---|
@@ -69,45 +97,11 @@ The skill runs nine layers in sequence, regardless of whether you are auditing a
 
 ---
 
-## Install
-
-### Option A — One click
-
-Click the button at the top of this page. It opens Claude Code and installs the skill automatically.
-
----
-
-### Option B — Manual install
-
-**Step 1.** Download the skill file:
-
-&nbsp;&nbsp;&nbsp;&nbsp;[**Download content-audit-skill.md →**](https://raw.githubusercontent.com/drew-rewired/content-visibility-audit/main/content-audit-skill.md) &nbsp;*(right-click → Save As)*
-
-&nbsp;&nbsp;&nbsp;&nbsp;[**Download full repo as .zip →**](https://github.com/drew-rewired/content-visibility-audit/archive/refs/heads/main.zip)
-
-**Step 2.** Place the file in your Claude Code skills folder. Copy the path for your OS:
-
-Mac / Linux:
-```
-~/.claude/skills/
-```
-
-Windows:
-```
-%USERPROFILE%\.claude\skills\
-```
-
-Create the folder if it does not exist.
-
-**Step 3.** Restart Claude Code. Onboarding starts automatically — no slash command needed on first launch.
-
----
-
 ## How it works
 
-The first time Claude Code loads after install, onboarding starts automatically. It walks through two phases: technical connections (GA4, Search Console, Semrush, competitors) and brand configuration (audience, ICP, voice, goals, plus a free-text additional context field). The only required answer is your domain. Everything else is optional — if you skip a step, the skill flags what will be limited and keeps moving. Configuration saves to a local file called `content-audit-config.json`.
+After install, onboarding starts automatically on the next Claude Code launch — no slash command needed the first time. You will be walked through two setup phases: technical connections (GA4, Search Console, Semrush, competitors) and brand configuration (audience, ICP, voice, goals, plus a free-text additional context field). The only required answer is your domain. Everything else is optional — skipped steps are flagged and the setup keeps moving. Configuration saves locally to `content-audit-config.json`.
 
-After that, type `/content-audit` to start an audit. The skill loads your config silently and asks how you want to begin: full content inventory, build from Search Console data, or single-asset diagnostic. Type `/content-audit-setup` at any time to update credentials, brand context, competitors, or anything else.
+After that, type `/content-audit` to start an audit. Type `/content-audit-setup` at any time to update credentials, brand context, or anything else.
 
 ---
 
