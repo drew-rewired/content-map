@@ -4,6 +4,20 @@ All notable changes to the Content Visibility Audit skill are documented here.
 
 ---
 
+## [1.2] — 2026-04-04
+
+### Added
+- **Competitor Selection Gate** — Standalone interactive section (between Layer 5 and Layer 6) that runs whenever competitor analysis is triggered. Three options: use saved competitors, enter a manual list, or discover competitors via Semrush keyword overlap. Always requires explicit user confirmation before any analysis begins. Never runs in the background.
+- **Layer 10 — Content Map Mode** — Standalone nine-step workflow for mapping a resource library to funnel stages, identifying gaps, and producing keyword-backed recommendations. Triggered from the return launch menu (option 3). Steps: asset intake and classification, funnel placement, competitor and keyword context (with gate), performance signal, EEAT/AEO quick score, gap analysis, reposition before produce, recommendations, content map output. Output saved as `content-map.md` in the domain folder.
+- **3-mode return launch** — When a config already exists, the skill now presents three options: Rerun audit, Single asset diagnostic, or Content map. Previously, the return launch went directly to an audit prompt without offering mode selection.
+- **Behavior Reference table updates** — Added rows for: auto-routing on "run audit" / "full audit", 3-mode return prompt, each return mode routing, Competitor Selection Gate trigger, and Semrush-unavailable fallback at the gate.
+
+### Changed
+- **Layer 5 reference** — Part A now explicitly references the Competitor Selection Gate as a defined section, not inline logic.
+- **Version** — Bumped from 1.1 to 1.2.
+
+---
+
 ## [1.1] — 2026-04-04
 
 ### Added
