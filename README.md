@@ -16,15 +16,13 @@
 
 <br>
 
-![Version](https://img.shields.io/badge/version-1.0-000000?style=flat-square)&nbsp;
-![Free](https://img.shields.io/badge/free-open%20source-111111?style=flat-square)&nbsp;
-![Claude Code](https://img.shields.io/badge/Claude%20Code-skill-CC0000?style=flat-square)
+[![version](https://img.shields.io/badge/version-1.0-000000?style=flat-square)](https://github.com/drew-rewired/content-visibility-audit)&nbsp;[![free](https://img.shields.io/badge/free-open%20source-111111?style=flat-square)](https://github.com/drew-rewired/content-visibility-audit)&nbsp;[![Claude Code](https://img.shields.io/badge/Claude%20Code-skill-CC0000?style=flat-square)](https://github.com/drew-rewired/content-visibility-audit)
 
 <br>
 
-### ▶ &nbsp;[INSTALL IN CLAUDE CODE](claude://install-skill?url=https://raw.githubusercontent.com/drew-rewired/content-visibility-audit/main/content-audit-skill.md)
+[![Install in Claude Code](https://img.shields.io/badge/%E2%96%B6%20%20INSTALL%20IN%20CLAUDE%20CODE-000000?style=for-the-badge)](claude://install-skill?url=https://raw.githubusercontent.com/drew-rewired/content-visibility-audit/main/content-audit-skill.md)
 
-*Click the link above to open Claude Code and install automatically.*
+*Opens Claude Code and installs automatically.*
 
 <br>
 
