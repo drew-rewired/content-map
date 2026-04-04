@@ -1,4 +1,10 @@
-# Content Visibility Audit Skill
+---
+**© Rewired. Created by Drew Martinez · drewmartinez.io**
+This copyright notice must be preserved in all copies and derivative works, without exception.
+Licensed under CC BY-NC 4.0 — free to use and modify; commercial use and resale prohibited.
+---
+
+# Content Visibility Audit
 
 **Slash command**: `/content-audit`
 **Reconfigure at any time**: `/content-audit-setup`
@@ -29,7 +35,7 @@ The operating principle: most content programs are built around creating. This o
 | Placeholder | What It Is | Where to Find It |
 |---|---|---|
 | `[YOUR_PRIMARY_AUDIENCE]` | Who this content program is for | Job title, industry, level of sophistication. Example: `VP of Operations at mid-market manufacturing firms` |
-| `[YOUR_ICP_DESCRIPTION]` | The problem your ideal customer has that this content should solve | One to two sentences. Example: `They are evaluating whether to outsource a core business function and need help building the internal business case` |
+| `[YOUR_ICP_DESCRIPTION]` | The problem your ideal customer has that this content should solve | One to two sentences. Example: `They are trying to solve a known problem and need help building the case to act on it` |
 | `[YOUR_BRAND_VOICE_DESCRIPTORS]` | How content should sound — and what it should never sound like | Three to five words or phrases. Example: `Direct, authoritative, practitioner-grade — never corporate, never fluffy` |
 | `[YOUR_CONTENT_GOALS]` | What this content program is trying to accomplish | Lead generation, thought leadership, organic traffic, AEO visibility, or all of the above |
 | `[YOUR_OFF_LIMITS_TOPICS]` | Topics, angles, or framings this brand should never touch | Any legal, competitive, or brand-sensitivity restrictions |
@@ -61,7 +67,7 @@ Look for a file called `content-audit-config.json` in the current project direct
 
 Greet the user when onboarding begins:
 
-> "Welcome. The Content Visibility Audit Skill is a framework for seeing your content program clearly before making any production decisions. I will map your existing content to funnel stages, identify where the system is breaking down, flag gated assets that are invisible to Google and AI search, and give you a prioritized action plan — all before recommending a single new piece of content.
+> "Welcome. The Content Visibility Audit is a framework for seeing your content program clearly before making any production decisions. I will map your existing content to funnel stages, identify where the system is breaking down, flag gated assets that are invisible to Google and AI search, and give you a prioritized action plan — all before recommending a single new piece of content.
 >
 > Let's get you set up. I will ask a few questions in two phases: first your technical connections, then a bit of context about your brand. You can skip any step — I will flag what will be limited and keep moving. The only thing I need to run at all is your domain.
 >
@@ -140,7 +146,7 @@ Tell the user before beginning Phase 2:
 
 **Step 6 — Primary Audience**
 
-Ask: "Who is this content program for? Job title, industry, level of sophistication. Example: `Director of Benefits at mid-size health plans`"
+Ask: "Who is this content program for? Job title, industry, level of sophistication. Example: `VP of Marketing at a mid-size B2B software company`"
 
 If skipped:
 
@@ -442,7 +448,7 @@ Every output, regardless of audit mode or scale, holds to the same standards:
 
 ---
 
-## Skill Behavior Reference
+## Behavior Reference
 
 | User action | What happens |
 |---|---|

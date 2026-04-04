@@ -9,7 +9,7 @@
  ╚═════╝    ╚═╝    ╚═╝  ╚═╝
 </pre>
 
-### CONTENT VISIBILITY AUDIT SKILL
+### CONTENT VISIBILITY AUDIT
 **A Claude Code skill for content strategists and digital marketers.**
 
 *See before you build.*
@@ -31,7 +31,7 @@
 ### Mac / Linux — one command, copy and paste into your terminal
 
 ```bash
-mkdir -p ~/.claude/skills && curl -fsSL https://raw.githubusercontent.com/drew-rewired/content-visibility-audit/main/content-audit-skill.md -o ~/.claude/skills/content-audit-skill.md
+mkdir -p ~/.claude/commands && curl -fsSL https://raw.githubusercontent.com/drew-rewired/content-visibility-audit/main/content-audit.md -o ~/.claude/commands/content-audit.md
 ```
 
 Restart Claude Code after running. Onboarding starts automatically.
@@ -41,20 +41,20 @@ Restart Claude Code after running. Onboarding starts automatically.
 ### Windows — one command, paste into PowerShell
 
 ```powershell
-curl.exe -fsSL https://raw.githubusercontent.com/drew-rewired/content-visibility-audit/main/content-audit-skill.md -o "$env:USERPROFILE\.claude\skills\content-audit-skill.md"
+curl.exe -fsSL https://raw.githubusercontent.com/drew-rewired/content-visibility-audit/main/content-audit.md -o "$env:USERPROFILE\.claude\commands\content-audit.md"
 ```
 
 ---
 
 ### Manual download
 
-[**Download content-audit-skill.md →**](https://raw.githubusercontent.com/drew-rewired/content-visibility-audit/main/content-audit-skill.md) &nbsp;*(right-click → Save As)*
+[**Download content-audit.md →**](https://raw.githubusercontent.com/drew-rewired/content-visibility-audit/main/content-audit.md) &nbsp;*(right-click → Save As)*
 
 [**Download full repo as .zip →**](https://github.com/drew-rewired/content-visibility-audit/archive/refs/heads/main.zip)
 
 Place the `.md` file in:
-- **Mac / Linux**: `~/.claude/skills/`
-- **Windows**: `%USERPROFILE%\.claude\skills\`
+- **Mac / Linux**: `~/.claude/commands/`
+- **Windows**: `%USERPROFILE%\.claude\commands\`
 
 Then restart Claude Code. Onboarding starts automatically.
 
