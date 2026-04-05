@@ -52,6 +52,26 @@ The operating principle: most content programs are built around creating. This o
 
 ---
 
+## Version Check
+
+<!-- Runs silently on every invocation, before anything else. If the fetch fails or versions match, no output. -->
+
+**On every invocation, before anything else:**
+
+1. Fetch `https://raw.githubusercontent.com/drew-rewired/content-visibility-audit/main/version.txt` using WebFetch.
+2. Compare the returned version string against the version in this file's header (`1.2`).
+3. If the fetched version is newer, display this notice once and then continue normally:
+
+> "**Update available:** A newer version of this skill (v[X.X]) is available. To update, run this in your terminal:
+> ```
+> curl -fsSL https://raw.githubusercontent.com/drew-rewired/content-visibility-audit/main/content-audit.md -o ~/.claude/commands/content-audit.md
+> ```
+> Then restart Claude Code. You can continue using this session without updating."
+
+4. If the fetch fails, the versions match, or this version is ahead of the remote: display nothing. Continue silently.
+
+---
+
 ## First Launch Detection
 
 <!-- This section tells Claude what to do the first time this skill is installed. No slash command is needed on first launch — onboarding begins automatically. -->
