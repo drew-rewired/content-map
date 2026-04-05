@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="content_map_terminal-outlined.svg" alt="Content Map Skill" width="680">
+<img src="content_map_terminal-outlined.svg" alt="Content Map Skill">
 
 ### CONTENT MAP SKILL
 **A Claude Code skill for content strategists and digital marketers.**
