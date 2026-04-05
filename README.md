@@ -1,22 +1,35 @@
 <div align="center">
 
 <pre>
- ██████╗ ██╗   ██╗  █████╗
-██╔════╝ ██║   ██║ ██╔══██╗
-██║      ╚██╗ ██╔╝ ███████║
-██║       ╚████╔╝  ██╔══██║
-╚██████╗   ╚██╔╝   ██║  ██║
- ╚═════╝    ╚═╝    ╚═╝  ╚═╝
+ ██████╗ ██████╗ ███╗   ██╗████████╗███████╗███╗   ██╗████████╗
+██╔════╝██╔═══██╗████╗  ██║╚══██╔══╝██╔════╝████╗  ██║╚══██╔══╝
+██║     ██║   ██║██╔██╗ ██║   ██║   █████╗  ██╔██╗ ██║   ██║   
+██║     ██║   ██║██║╚██╗██║   ██║   ██╔══╝  ██║╚██╗██║   ██║   
+╚██████╗╚██████╔╝██║ ╚████║   ██║   ███████╗██║ ╚████║   ██║   
+ ╚═════╝ ╚═════╝ ╚═╝  ╚═══╝   ╚═╝   ╚══════╝╚═╝  ╚═══╝   ╚═╝   
+
+██╗   ██╗██╗███████╗██╗██████╗ ██╗██╗     ██╗████████╗██╗   ██╗
+██║   ██║██║██╔════╝██║██╔══██╗██║██║     ██║╚══██╔══╝╚██╗ ██╔╝
+██║   ██║██║███████╗██║██████╔╝██║██║     ██║   ██║    ╚████╔╝ 
+╚██╗ ██╔╝██║╚════██║██║██╔══██╗██║██║     ██║   ██║     ╚██╔╝  
+ ╚████╔╝ ██║███████║██║██████╔╝██║███████╗██║   ██║      ██║   
+  ╚═══╝  ╚═╝╚══════╝╚═╝╚═════╝ ╚═╝╚══════╝╚═╝   ╚═╝      ╚═╝   
+
+ █████╗ ██╗   ██╗██████╗ ██╗████████╗
+██╔══██╗██║   ██║██╔══██╗██║╚══██╔══╝
+███████║██║   ██║██║  ██║██║   ██║   
+██╔══██║██║   ██║██║  ██║██║   ██║   
+██║  ██║╚██████╔╝██████╔╝██║   ██║   
+╚═╝  ╚═╝ ╚═════╝ ╚═════╝ ╚═╝   ╚═╝   
 </pre>
 
-### CONTENT VISIBILITY AUDIT
 **A Claude Code skill for content strategists and digital marketers.**
 
 *See before you build.*
 
 <br>
 
-<img src="https://img.shields.io/badge/version-1.3-000000?style=flat-square" alt="version">&nbsp;<img src="https://img.shields.io/badge/free-open%20source-111111?style=flat-square" alt="free">&nbsp;<img src="https://img.shields.io/badge/Claude%20Code-skill-CC0000?style=flat-square" alt="Claude Code skill">
+`v1.3` &nbsp;·&nbsp; `free` &nbsp;·&nbsp; `Claude Code skill`
 
 <br>
 
@@ -137,7 +150,7 @@ You are presented with three modes:
 | Mode | What it does |
 |---|---|
 | **Rerun audit** | Full re-audit with fresh data from all connected sources |
-| **Single asset diagnostic** | Drop in one URL or PDF — runs all nine layers scoped to that asset |
+| **Single asset diagnostic** | Drop in one URL or PDF — runs Layers 1–6 scoped to that asset, with Layers 7–8 adapted to surface improvement opportunities for the single asset |
 | **Content map** | Maps your resource library to funnel stages, identifies gaps, produces keyword-backed recommendations |
 
 Type `run audit` or `full audit` at any point to skip the menu and go straight to a full audit.
