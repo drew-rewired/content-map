@@ -12,7 +12,7 @@ Licensed under CC BY-NC 4.0 — free to use and modify; commercial use and resal
 
 **Slash command**: `/content-audit`
 **Reconfigure at any time**: `/content-audit-setup`
-**Version**: 1.1
+**Version**: 1.2
 
 ---
 
@@ -233,7 +233,7 @@ If skipped, move forward with no callout. This field is purely protective — if
 
 Ask: "Last question — is there anything else that would help me understand your content program, audience, or business context? This could include the solutions you sell, verticals you serve, geographic focus, upcoming campaigns, a rebrand in progress, or anything else that did not fit the earlier questions. Free text — no format required."
 
-- If they enter something: save it to `content-audit-config.json` under `additional_context`. Confirm it was saved.
+- If they enter something: save it to `content-audit/{domain}/content-audit-config.json` under `additional_context`. Confirm it was saved.
 - If they skip it: move forward with no flag, no callout, no friction.
 
 ---
@@ -504,7 +504,7 @@ Flag quick wins separately: keywords where the domain already has Search Console
 **After explicit user approval:**
 - Expand approved seed words into full keyword clusters using Semrush (if connected)
 - Map each cluster to a funnel stage and recommended content format
-- Carry these clusters forward into Layer 7 gap identification and Layer 10 content map
+- Carry these clusters forward into Layer 7 gap identification. If running Content Map Mode (Layer 10), they will be used there as well.
 
 ---
 
@@ -725,7 +725,7 @@ Deliver a prioritized content map structured around action, not data. Every item
    - **Ungate**: Assets that are currently gated and should be converted to ungated pages with an optional PDF download
    - **Net-new**: Gaps that cannot be filled through repositioning and require new content production
 
-3. **AEO readiness summary**: Letter grade per asset audited. Flag every asset scoring D or F as a priority rehabilitation target.
+3. **EEAT and AEO summary**: Carry forward the scores, grades, and priority flags produced in Layer 6. Do not re-score. Present the Immediate-flagged assets at the top of the action list, followed by Moderate, Monitor, and Pass.
 
 4. **Competitor gap summary**: If Semrush was connected, flag the three to five highest-priority keyword gaps the competitor set is capturing that this program is not. Map each gap to the appropriate funnel stage and note whether an existing asset could be repositioned to compete.
 
@@ -908,7 +908,7 @@ Every output, regardless of audit mode or scale, holds to the same standards:
 | User types 'run audit' or 'full audit' | Auto-routes directly to Full inventory / Rerun audit mode — no mode menu shown |
 | Return launch with config present | Presents 3-mode prompt: Rerun audit / Single asset diagnostic / Content map |
 | User selects 'Rerun audit' at return prompt | Runs full nine-layer audit with fresh data from all connected sources |
-| User selects 'Single asset diagnostic' at return prompt | Waits for user to provide a URL or PDF, then runs all nine layers scoped to that asset |
+| User selects 'Single asset diagnostic' at return prompt | Waits for user to provide a URL or PDF, then runs Layers 1–6 scoped to that asset (inventory, funnel placement, gating, triangulation, EEAT/AEO); Layers 7–8 are adapted to surface improvement opportunities for that single asset rather than cross-inventory gap analysis; Layer 9 produces a single-asset action plan |
 | User selects 'Content map' at return prompt | Loads Layer 10 Content Map Mode |
 | Competitor analysis triggered (Layer 5 or Layer 10) | Competitor Selection Gate runs interactively — never skipped, never backgrounded |
 | Option 3 selected at Competitor Gate with no Semrush | Mid-audit callout displayed, user prompted to choose Option 1 or 2 instead |
