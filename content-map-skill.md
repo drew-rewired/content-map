@@ -2,7 +2,7 @@
 
 **Slash command**: `/content-map`
 **Reconfigure at any time**: `/content-map-setup`
-**Version**: 1.4
+**Version**: 1.5
 
 ---
 
@@ -47,7 +47,7 @@ The operating principle: most content programs are built around creating. This o
 **On every invocation, before anything else:**
 
 1. Fetch `https://raw.githubusercontent.com/drew-rewired/content-map/main/version.txt` using WebFetch.
-2. Compare the returned version string against the version in this file's header (`1.4`).
+2. Compare the returned version string against the version in this file's header (`1.5`).
 3. If the fetched version is newer, display this notice once and then continue normally:
 
 > "**Update available:** A newer version of the Content Map Skill (v[X.X]) is available. To update, run this in your terminal:
@@ -223,7 +223,7 @@ Ask: "Last question — is there anything else that would help me understand you
 
 ### Config Save and Restart
 
-When all steps are complete, save everything to `content-map-config.json` in the current project directory. Then tell the user:
+When all steps are complete, save everything to `content-map-config.json` in the current project directory. Initialize `content-map/content-map-memory.json` as an empty structure if it does not already exist. Then tell the user:
 
 > "Setup complete. Your configuration has been saved to `content-map-config.json`.
 >
@@ -285,9 +285,20 @@ Ask: "How do you want to start?
 
 - **Full inventory**: Drop in your complete content inventory as a CSV, spreadsheet, or list of URLs. I will map everything.
 - **Build from Search Console**: Paste in a few URLs you know about. I will use Search Console data to surface indexed pages and build the inventory from there.
-- **Single asset diagnostic**: Share one URL or upload one PDF. I will run a deep diagnostic on that asset."
+- **Single asset diagnostic**: Share one URL or upload one PDF. I will place it in the funnel, show which existing resources connect to it, run EEAT and AEO scoring, and deliver a specific internal linking architecture for that asset."
 
 Route to the correct mode based on their answer.
+
+**Single asset diagnostic — what it delivers:**
+
+When a user drops in a URL or PDF, the output covers four things in order:
+
+1. **Funnel placement**: Which stage does this asset belong to — TOFU, MOFU, or BOFU? Rationale based on topic, framing, and searcher intent.
+2. **Resource connections**: Which existing assets in the content program connect to this one? What should link to it (upstream) and what should it link to (downstream)?
+3. **EEAT and AEO score**: Letter grade on both frameworks. Specific failures flagged with fix instructions.
+4. **Internal linking map**: A precise table — which pages should link to this asset with what anchor text, and which pages this asset should link out to with what anchor text. Five to ten highest-leverage link relationships flagged as priority.
+
+If no prior map exists for this domain, the resource connections and linking map will be limited to assets the user can supply. Prompt the user to paste in a list of their other content URLs if needed.
 
 ---
 
@@ -401,6 +412,30 @@ For each identified gap:
 
 Always address broken MOFU gaps before missing BOFU assets. A buyer who cannot evaluate cannot convert. TOFU investment is wasted if there is no path through the middle.
 
+**Research mode — gap filling:**
+
+After identifying gaps, ask the user once per run:
+
+> "I've identified [X] gaps in your funnel. Would you like me to go online and search for current, industry-specific content topics to help fill them? I'll find sources relevant to your space and present everything for your review before using anything in recommendations.
+>
+> Go online for research? **Yes / No**"
+
+If **yes**: search for content topics, angles, and supporting evidence specific to the user's industry and domain context (derived from config and the topics surfaced in the gap analysis). A healthcare company gets healthcare sources. A B2B SaaS company gets B2B SaaS sources. Do not pull generic content marketing or SEO statistics unless the domain is specifically about marketing.
+
+For every piece of research found, present a citation block before using anything:
+
+```
+SOURCE: [Publication or organization name]
+URL: [Full URL]
+TOPIC OR CLAIM: [What this source covers or claims]
+RELEVANCE: [Why this fills or informs the identified gap]
+ACTION: ✅ Use this  ❌ Skip  ✏️ Find a replacement
+```
+
+Present all citation blocks together before writing a single gap recommendation. Wait for the user to action every item. Do not weave any researched source or claim into a recommendation until it has been explicitly approved. If a source is rejected, find a replacement and re-present, or note the gap and continue without it.
+
+If **no**: proceed with structural gap identification based on inventory and funnel analysis only. No external sources used.
+
 ---
 
 ### Layer 8 — Repurposing Layer
@@ -437,13 +472,41 @@ Deliver a prioritized content map structured around action, not data. Every item
 
 3. **AEO readiness summary**: Letter grade per asset mapped. Flag every asset scoring D or F as a priority rehabilitation target.
 
-4. **Competitor gap summary**: If Semrush was connected, flag the three to five highest-priority keyword gaps the competitor set is capturing that this program is not. Map each gap to the appropriate funnel stage and note whether an existing asset could be repositioned to compete.
+4. **Internal linking architecture**: Deliver a specific linking map derived from the funnel structure identified in Layers 2 and 7. For every asset in the inventory, specify:
 
-5. **Rationale**: Every recommendation must include a one- to two-sentence rationale. No unexplained flags. No generic advice.
+   - Which other assets should link **to** this asset (upstream referrers), with recommended anchor text
+   - Which assets this asset should link **out to** (downstream destinations), with recommended anchor text
+   - Priority: flag the five to ten highest-leverage link relationships — those that connect high-traffic TOFU pages to thin MOFU assets, or MOFU assets to BOFU conversion pages
+
+   Format as a table: Asset | Links From (with anchor text) | Links To (with anchor text) | Priority.
+
+   For single asset diagnostics: produce a focused linking map showing exactly which existing pages should link to the asset and which pages the asset should link to, with specific anchor text recommendations for each.
+
+5. **Competitor gap summary**: If Semrush was connected, flag the three to five highest-priority keyword gaps the competitor set is capturing that this program is not. Map each gap to the appropriate funnel stage and note whether an existing asset could be repositioned to compete.
+
+6. **Rationale**: Every recommendation must include a one- to two-sentence rationale. No unexplained flags. No generic advice.
 
 Close every map output with:
 
 > "When you are ready to take any of these assets and rebuild them for new channels and formats — email, social, paid, event content, or partner distribution — install the Content Remix Skill, available in the `bonus/` folder of the content-map repo."
+
+---
+
+## Learning and Memory System
+
+This skill maintains a memory file at `content-map/content-map-memory.json`. This file is never shown to the user unless they ask for it. It grows silently every session and is never reset unless the user types `/content-map-reset-memory`.
+
+The memory file tracks four things:
+
+**Approved map outputs.** Every completed map the user accepts without requesting major changes is logged by domain, mode, and date. Over time, approved outputs become behavioral references — the skill reads them silently when generating new maps for this domain, calibrating recommendations to match what has already been validated for this content program.
+
+**Edit patterns.** Every change the user requests after an output is delivered is logged. If the same pattern appears three times, it is set to `auto_apply: true` and applied automatically in future runs without prompting. A brief note is displayed at the start of the next run: "Auto-applied from your past edits: [pattern list]."
+
+**Format preferences.** If the user consistently selects the same report format or output structure three runs in a row, that format is surfaced as the default in the next run prompt. The user can override it or confirm it with a single keypress.
+
+**Domain context.** As maps accumulate for a domain, the skill builds a running picture of that content program — what has been mapped, what recommendations have been accepted, which structural issues have been addressed. This context is loaded silently on return launches for the same domain and used to avoid re-surfacing already-resolved issues.
+
+To reset all memory: type `/content-map-reset-memory`. The memory file will be cleared and the skill will confirm. Configuration is not affected — only memory is cleared.
 
 ---
 
@@ -465,10 +528,17 @@ Every output, regardless of map mode or scale, holds to the same standards:
 | User action | What happens |
 |---|---|
 | First launch with no config | Onboarding begins automatically |
-| `/content-map` with config present | Loads config silently, goes to map prompt |
+| `/content-map` with config present | Loads config and memory silently, goes to map prompt |
 | `/content-map-setup` | Opens reconfiguration for every field — credentials and brand context |
+| `/content-map-reset-memory` | Clears `content-map-memory.json`, confirms to user, config is not affected |
 | Skipping a required credential mid-map | Bold callout displayed, map continues |
 | Skipping a brand config field during onboarding | Bold callout displayed, setup continues |
 | Skipping the additional context field | No flag, no friction, move forward |
 | Updating additional context via setup | Show existing content first, offer add / replace / leave as is |
 | Every setup completion | Display explicit reminder that `/content-map-setup` is available any time |
+| Layer 7 gap identification | Ask once per run if user wants research mode — explicit yes or no required |
+| Research approved | Search industry-specific sources, present citation blocks, wait for approval before using |
+| Research source rejected | Find replacement and re-present, or note gap and continue without it |
+| Output accepted without major changes | Log to memory: approved output, domain, mode, date |
+| Edit requested by user | Log edit pattern to memory. Auto-apply after 3 occurrences. |
+| Consistent format preference detected | Surface as default in map prompt after 3 consistent choices |

@@ -1,19 +1,12 @@
 <div align="center">
 
 <pre>
- ██████╗ ██████╗ ███╗   ██╗████████╗███████╗███╗   ██╗████████╗
-██╔════╝██╔═══██╗████╗  ██║╚══██╔══╝██╔════╝████╗  ██║╚══██╔══╝
-██║     ██║   ██║██╔██╗ ██║   ██║   █████╗  ██╔██╗ ██║   ██║
-██║     ██║   ██║██║╚██╗██║   ██║   ██╔══╝  ██║╚██╗██║   ██║
-╚██████╗╚██████╔╝██║ ╚████║   ██║   ███████╗██║ ╚████║   ██║
- ╚═════╝ ╚═════╝ ╚═╝  ╚═══╝   ╚═╝   ╚══════╝╚═╝  ╚═══╝   ╚═╝
-
-███╗   ███╗ █████╗ ██████╗
-████╗ ████║██╔══██╗██╔══██╗
-██╔████╔██║███████║██████╔╝
-██║╚██╔╝██║██╔══██║██╔═══╝
-██║ ╚═╝ ██║██║  ██║██║
-╚═╝     ╚═╝╚═╝  ╚═╝╚═╝
+ ██████╗ ██████╗ ███╗   ██╗████████╗███████╗███╗   ██╗████████╗    ███╗   ███╗ █████╗ ██████╗
+██╔════╝██╔═══██╗████╗  ██║╚══██╔══╝██╔════╝████╗  ██║╚══██╔══╝    ████╗ ████║██╔══██╗██╔══██╗
+██║     ██║   ██║██╔██╗ ██║   ██║   █████╗  ██╔██╗ ██║   ██║       ██╔████╔██║███████║██████╔╝
+██║     ██║   ██║██║╚██╗██║   ██║   ██╔══╝  ██║╚██╗██║   ██║       ██║╚██╔╝██║██╔══██║██╔═══╝
+╚██████╗╚██████╔╝██║ ╚████║   ██║   ███████╗██║ ╚████║   ██║       ██║ ╚═╝ ██║██║  ██║██║
+ ╚═════╝ ╚═════╝ ╚═╝  ╚═══╝   ╚═╝   ╚══════╝╚═╝  ╚═══╝   ╚═╝       ╚═╝     ╚═╝╚═╝  ╚═╝╚═╝
 </pre>
 
 ### CONTENT MAP SKILL
@@ -23,7 +16,7 @@
 
 <br>
 
-<img src="https://img.shields.io/badge/version-1.4-000000?style=flat-square" alt="version">&nbsp;<img src="https://img.shields.io/badge/free-open%20source-111111?style=flat-square" alt="free">&nbsp;<img src="https://img.shields.io/badge/Claude%20Code-skill-CC0000?style=flat-square" alt="Claude Code skill">
+<img src="https://img.shields.io/badge/version-1.5-000000?style=flat-square" alt="version">&nbsp;<img src="https://img.shields.io/badge/free-open%20source-111111?style=flat-square" alt="free">&nbsp;<img src="https://img.shields.io/badge/Claude%20Code-skill-CC0000?style=flat-square" alt="Claude Code skill">
 
 <br>
 
@@ -71,6 +64,8 @@ Production is the last resort. This skill makes that principle actionable.
 ---
 
 ## Version highlights
+
+**v1.5** — Added memory/learning system (`content-map-memory.json`); research mode for gap recommendations (explicit permission, citation blocks with Approve/Reject/Replace); internal linking architecture added to Layer 9 output and single asset diagnostic.
 
 **v1.4** — Renamed from Content Visibility Audit to Content Map. Updated slash commands to `/content-map` and `/content-map-setup`. Added Content Remix Skill to `bonus/` folder.
 
