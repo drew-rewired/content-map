@@ -9,18 +9,18 @@
  ╚═════╝    ╚═╝    ╚═╝  ╚═╝
 </pre>
 
-### CONTENT VISIBILITY AUDIT SKILL
+### CONTENT MAP SKILL
 **A Claude Code skill for content strategists and digital marketers.**
 
 *See before you build.*
 
 <br>
 
-<img src="https://img.shields.io/badge/version-1.0-000000?style=flat-square" alt="version">&nbsp;<img src="https://img.shields.io/badge/free-open%20source-111111?style=flat-square" alt="free">&nbsp;<img src="https://img.shields.io/badge/Claude%20Code-skill-CC0000?style=flat-square" alt="Claude Code skill">
+<img src="https://img.shields.io/badge/version-1.4-000000?style=flat-square" alt="version">&nbsp;<img src="https://img.shields.io/badge/free-open%20source-111111?style=flat-square" alt="free">&nbsp;<img src="https://img.shields.io/badge/Claude%20Code-skill-CC0000?style=flat-square" alt="Claude Code skill">
 
 <br>
 
-`/content-audit` &nbsp;·&nbsp; `/content-audit-setup`
+`/content-map` &nbsp;·&nbsp; `/content-map-setup`
 
 </div>
 
@@ -31,7 +31,7 @@
 ### Mac / Linux — one command, copy and paste into your terminal
 
 ```bash
-mkdir -p ~/.claude/skills && curl -fsSL https://raw.githubusercontent.com/drew-rewired/content-visibility-audit/main/content-audit-skill.md -o ~/.claude/skills/content-audit-skill.md
+mkdir -p ~/.claude/commands && curl -fsSL https://raw.githubusercontent.com/drew-rewired/content-map/main/content-map-skill.md -o ~/.claude/commands/content-map.md
 ```
 
 Restart Claude Code after running. Onboarding starts automatically.
@@ -41,20 +41,20 @@ Restart Claude Code after running. Onboarding starts automatically.
 ### Windows — one command, paste into PowerShell
 
 ```powershell
-curl.exe -fsSL https://raw.githubusercontent.com/drew-rewired/content-visibility-audit/main/content-audit-skill.md -o "$env:USERPROFILE\.claude\skills\content-audit-skill.md"
+curl.exe -fsSL https://raw.githubusercontent.com/drew-rewired/content-map/main/content-map-skill.md -o "$env:USERPROFILE\.claude\commands\content-map.md"
 ```
 
 ---
 
 ### Manual download
 
-[**Download content-audit-skill.md →**](https://raw.githubusercontent.com/drew-rewired/content-visibility-audit/main/content-audit-skill.md) &nbsp;*(right-click → Save As)*
+[**Download content-map-skill.md →**](https://raw.githubusercontent.com/drew-rewired/content-map/main/content-map-skill.md) &nbsp;*(right-click → Save As)*
 
-[**Download full repo as .zip →**](https://github.com/drew-rewired/content-visibility-audit/archive/refs/heads/main.zip)
+[**Download full repo as .zip →**](https://github.com/drew-rewired/content-map/archive/refs/heads/main.zip)
 
 Place the `.md` file in:
-- **Mac / Linux**: `~/.claude/skills/`
-- **Windows**: `%USERPROFILE%\.claude\skills\`
+- **Mac / Linux**: `~/.claude/commands/`
+- **Windows**: `%USERPROFILE%\.claude\commands\`
 
 Then restart Claude Code. Onboarding starts automatically.
 
@@ -66,7 +66,7 @@ Most content programs are built around creating. This one is built around seeing
 
 The funnel is a system, not a filing cabinet. A gap in the middle means the top never converts. Gated content is invisible to Google and invisible to AI — it does not exist in the research layer buyers use to build vendor shortlists before ever visiting your website. And most content teams keep producing into a broken structure without knowing it.
 
-This skill forces the audit before the output. It maps what you have, shows where it breaks, flags what is invisible, and delivers a prioritized action plan. Production is the last resort.
+This skill maps what you have, shows where it breaks, flags what is invisible, and delivers a prioritized action plan. Production is the last resort.
 
 ---
 
@@ -79,9 +79,9 @@ This skill forces the audit before the output. It maps what you have, shows wher
 
 ---
 
-## What it audits
+## What it maps
 
-Nine layers run in sequence, regardless of whether you are auditing a single asset or a full content inventory.
+Nine layers run in sequence, regardless of whether you are mapping a single asset or a full content inventory.
 
 | Layer | What it does |
 |---|---|
@@ -99,16 +99,16 @@ Nine layers run in sequence, regardless of whether you are auditing a single ass
 
 ## How it works
 
-After install, onboarding starts automatically on the next Claude Code launch — no slash command needed the first time. You will be walked through two setup phases: technical connections (GA4, Search Console, Semrush, competitors) and brand configuration (audience, ICP, voice, goals, plus a free-text additional context field). The only required answer is your domain. Everything else is optional — skipped steps are flagged and the setup keeps moving. Configuration saves locally to `content-audit-config.json`.
+After install, onboarding starts automatically on the next Claude Code launch — no slash command needed the first time. You will be walked through two setup phases: technical connections (GA4, Search Console, Semrush, competitors) and brand configuration (audience, ICP, voice, goals, plus a free-text additional context field). The only required answer is your domain. Everything else is optional — skipped steps are flagged and the setup keeps moving. Configuration saves locally to `content-map-config.json`.
 
-After that, type `/content-audit` to start an audit. Type `/content-audit-setup` at any time to update credentials, brand context, or anything else.
+After that, type `/content-map` to start a map. Type `/content-map-setup` at any time to update credentials, brand context, or anything else.
 
 ---
 
 ## What you need
 
 **Required:**
-- A domain to audit
+- A domain to map
 
 **Optional but recommended:**
 - GA4 Property ID + Google Analytics Data API enabled
@@ -116,13 +116,13 @@ After that, type `/content-audit` to start an audit. Type `/content-audit-setup`
 - Semrush API key
 - Up to five competitor domains
 
-The skill runs without the optional items. GA4 gives you behavioral signal. Search Console gives you visibility signal. Semrush gives you keyword intent and competitor gap data. Without them, the audit runs on structure alone — still useful, but less precise.
+The skill runs without the optional items. GA4 gives you behavioral signal. Search Console gives you visibility signal. Semrush gives you keyword intent and competitor gap data. Without them, the map runs on structure alone — still useful, but less precise.
 
 ---
 
 ## Bonus
 
-A Content Repurpose Skill is available in the `bonus/` folder of this repo.
+The Content Remix Skill is available in the `bonus/` folder of this repo. Take any asset your map surfaces and rebuild it for every channel — social, email, landing pages, podcast scripts, presentations, and more.
 
 ---
 

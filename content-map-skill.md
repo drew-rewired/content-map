@@ -1,8 +1,8 @@
-# Content Visibility Audit Skill
+# Content Map Skill
 
-**Slash command**: `/content-audit`
-**Reconfigure at any time**: `/content-audit-setup`
-**Version**: 1.0
+**Slash command**: `/content-map`
+**Reconfigure at any time**: `/content-map-setup`
+**Version**: 1.4
 
 ---
 
@@ -22,7 +22,7 @@ The operating principle: most content programs are built around creating. This o
 
 | Placeholder | What It Is | Where to Find It |
 |---|---|---|
-| `[YOUR_DOMAIN]` | The domain being audited | The URL of the website you are auditing. Example: `yourbrand.com` |
+| `[YOUR_DOMAIN]` | The domain being mapped | The URL of the website you are mapping. Example: `yourbrand.com` |
 
 **Optional — flag and move forward if skipped. Recommendations will be less targeted without these.**
 
@@ -42,16 +42,34 @@ The operating principle: most content programs are built around creating. This o
 
 ---
 
+## Version Check
+
+**On every invocation, before anything else:**
+
+1. Fetch `https://raw.githubusercontent.com/drew-rewired/content-map/main/version.txt` using WebFetch.
+2. Compare the returned version string against the version in this file's header (`1.4`).
+3. If the fetched version is newer, display this notice once and then continue normally:
+
+> "**Update available:** A newer version of the Content Map Skill (v[X.X]) is available. To update, run this in your terminal:
+> ```
+> curl -fsSL https://raw.githubusercontent.com/drew-rewired/content-map/main/content-map-skill.md -o ~/.claude/commands/content-map.md
+> ```
+> Then restart Claude Code. You can continue using this session without updating."
+
+4. If the fetch fails, versions match, or this version is ahead of remote: display nothing. Continue silently.
+
+---
+
 ## First Launch Detection
 
 <!-- This section tells Claude what to do the first time this skill is installed. No slash command is needed on first launch — onboarding begins automatically. -->
 
 **On every invocation, check first:**
 
-Look for a file called `content-audit-config.json` in the current project directory.
+Look for a file called `content-map-config.json` in the current project directory.
 
 - **If the file does not exist**: Onboarding has not been completed. Begin the onboarding flow immediately. Do not wait for a slash command.
-- **If the file exists**: Configuration is saved. Skip onboarding entirely. Load the saved configuration silently and go straight to the audit prompt: "Welcome back. What are we auditing today? You can drop in a URL, upload a PDF, paste a list of URLs, or type 'full audit' to run your complete content program."
+- **If the file exists**: Configuration is saved. Skip onboarding entirely. Load the saved configuration silently and go straight to the map prompt: "Welcome back. What are we mapping today? You can drop in a URL, upload a PDF, paste a list of URLs, or type 'full map' to run your complete content program."
 
 ---
 
@@ -61,11 +79,11 @@ Look for a file called `content-audit-config.json` in the current project direct
 
 Greet the user when onboarding begins:
 
-> "Welcome. The Content Visibility Audit Skill is a framework for seeing your content program clearly before making any production decisions. I will map your existing content to funnel stages, identify where the system is breaking down, flag gated assets that are invisible to Google and AI search, and give you a prioritized action plan — all before recommending a single new piece of content.
+> "Welcome. The Content Map Skill is a framework for seeing your content program clearly before making any production decisions. I will map your existing content to funnel stages, identify where the system is breaking down, flag gated assets that are invisible to Google and AI search, and give you a prioritized action plan — all before recommending a single new piece of content.
 >
 > Let's get you set up. I will ask a few questions in two phases: first your technical connections, then a bit of context about your brand. You can skip any step — I will flag what will be limited and keep moving. The only thing I need to run at all is your domain.
 >
-> Your answers will be saved locally to `content-audit-config.json`. You can update any part of your configuration at any time by typing `/content-audit-setup`."
+> Your answers will be saved locally to `content-map-config.json`. You can update any part of your configuration at any time by typing `/content-map-setup`."
 
 ---
 
@@ -73,9 +91,9 @@ Greet the user when onboarding begins:
 
 **Step 1 — Domain** *(Required)*
 
-Ask: "What is the primary domain you are auditing? Example: `yourbrand.com`"
+Ask: "What is the primary domain you are mapping? Example: `yourbrand.com`"
 
-This is the only required field. If the user skips this or enters nothing, ask once more. If they still do not provide it, tell them: "A domain is required to run this skill. Nothing runs without it. Come back and type `/content-audit` when you have it." Then stop.
+This is the only required field. If the user skips this or enters nothing, ask once more. If they still do not provide it, tell them: "A domain is required to run this skill. Nothing runs without it. Come back and type `/content-map` when you have it." Then stop.
 
 ---
 
@@ -88,9 +106,9 @@ Also ask: "Have you enabled the Google Analytics Data API in Google Cloud Consol
 If skipped or unavailable, display this callout and move to Step 3:
 
 > **GA4 not connected.**
-> Engagement data, session depth, time on page, and conversion events will not be available. Behavioral signal will be missing from your audit — you will not be able to see which content is actually driving engagement and which is dead weight.
-> Your audit will proceed but results in this area will be limited.
-> To add GA4 access at any time, type `/content-audit-setup`.
+> Engagement data, session depth, time on page, and conversion events will not be available. Behavioral signal will be missing from your map — you will not be able to see which content is actually driving engagement and which is dead weight.
+> Your map will proceed but results in this area will be limited.
+> To add GA4 access at any time, type `/content-map-setup`.
 
 ---
 
@@ -102,8 +120,8 @@ If skipped or unavailable, display this callout and move to Step 4:
 
 > **Google Search Console not connected.**
 > Visibility signal will not be available. You will not be able to see which pages are indexed, what queries they appear for, or how click-through rates compare to impressions. This limits gap identification and cannot distinguish between content that does not exist and content that exists but is invisible to search.
-> Your audit will proceed but results in this area will be limited.
-> To add Search Console access at any time, type `/content-audit-setup`.
+> Your map will proceed but results in this area will be limited.
+> To add Search Console access at any time, type `/content-map-setup`.
 
 ---
 
@@ -115,8 +133,8 @@ If skipped or unavailable, display this callout and move to Step 5:
 
 > **Semrush not connected.**
 > Keyword gap analysis, competitor content gap data, and intent signal will not be available. AEO recommendations will be limited to structural evaluation. You will not be able to see what keyword clusters your competitors are ranking for that you are missing.
-> Your audit will proceed but results in this area will be limited.
-> To add your Semrush API key at any time, type `/content-audit-setup`.
+> Your map will proceed but results in this area will be limited.
+> To add your Semrush API key at any time, type `/content-map-setup`.
 
 ---
 
@@ -130,11 +148,11 @@ If skipped, note briefly that competitor gap analysis will be unavailable and mo
 
 ### Phase 2 — Brand Configuration
 
-<!-- All brand configuration steps are optional. Skipping any of them triggers a callout and moves forward. The only required field is the domain from Step 1. The more context provided here, the more targeted the recommendations. Without it, the audit defaults to generic best practices. -->
+<!-- All brand configuration steps are optional. Skipping any of them triggers a callout and moves forward. The only required field is the domain from Step 1. The more context provided here, the more targeted the recommendations. Without it, the map defaults to generic best practices. -->
 
 Tell the user before beginning Phase 2:
 
-> "Now let's set up your brand context. This is what makes the audit recommendations relevant to your specific audience instead of generic best practices. All of these are optional — skip anything you want and I will flag what will be less targeted. You can update any of this at any time by typing `/content-audit-setup`."
+> "Now let's set up your brand context. This is what makes the map recommendations relevant to your specific audience instead of generic best practices. All of these are optional — skip anything you want and I will flag what will be less targeted. You can update any of this at any time by typing `/content-map-setup`."
 
 ---
 
@@ -146,7 +164,7 @@ If skipped:
 
 > **Setup gap: Primary audience not provided.**
 > Funnel stage assignments and content quality assessments will rely on generic frameworks rather than the specific buyer journey your audience follows. Recommendations may be less precise.
-> To add this context at any time, type `/content-audit-setup`.
+> To add this context at any time, type `/content-map-setup`.
 
 ---
 
@@ -158,7 +176,7 @@ If skipped:
 
 > **Setup gap: ICP not provided.**
 > Gap identification will be based on funnel structure alone rather than the specific problems your buyers are trying to solve. You may see gaps flagged that are not actually gaps for your audience, and real gaps may not surface clearly.
-> To add this context at any time, type `/content-audit-setup`.
+> To add this context at any time, type `/content-map-setup`.
 
 ---
 
@@ -170,7 +188,7 @@ If skipped:
 
 > **Setup gap: Brand voice not provided.**
 > EEAT and AEO assessments will not include voice or tone evaluation. Copy quality flags will be limited to structure and information density.
-> To add this context at any time, type `/content-audit-setup`.
+> To add this context at any time, type `/content-map-setup`.
 
 ---
 
@@ -182,7 +200,7 @@ If skipped:
 
 > **Setup gap: Content goals not provided.**
 > Prioritization logic will default to a balanced model rather than weighting toward your actual conversion goals. Recommendations may not reflect what matters most to your business.
-> To add this context at any time, type `/content-audit-setup`.
+> To add this context at any time, type `/content-map-setup`.
 
 ---
 
@@ -198,41 +216,41 @@ If skipped, move forward with no callout. This field is purely protective — if
 
 Ask: "Last question — is there anything else that would help me understand your content program, audience, or business context? This could include the solutions you sell, verticals you serve, geographic focus, upcoming campaigns, a rebrand in progress, or anything else that did not fit the earlier questions. Free text — no format required."
 
-- If they enter something: save it to `content-audit-config.json` under `additional_context`. Confirm it was saved.
+- If they enter something: save it to `content-map-config.json` under `additional_context`. Confirm it was saved.
 - If they skip it: move forward with no flag, no callout, no friction.
 
 ---
 
 ### Config Save and Restart
 
-When all steps are complete, save everything to `content-audit-config.json` in the current project directory. Then tell the user:
+When all steps are complete, save everything to `content-map-config.json` in the current project directory. Then tell the user:
 
-> "Setup complete. Your configuration has been saved to `content-audit-config.json`.
+> "Setup complete. Your configuration has been saved to `content-map-config.json`.
 >
-> Restart Claude Code and type `/content-audit` to begin your first audit.
+> Restart Claude Code and type `/content-map` to begin your first content map.
 >
-> **You can update any part of your setup at any time by typing `/content-audit-setup`. This includes credentials, brand context, audience information, competitors, and any additional context you provided.**"
+> **You can update any part of your setup at any time by typing `/content-map-setup`. This includes credentials, brand context, audience information, competitors, and any additional context you provided.**"
 
 ---
 
-## Mid-Audit Missing Credential Callout
+## Mid-Map Missing Credential Callout
 
-<!-- Use this exact format any time a required credential or data source is unavailable during an active audit. Do not stop the audit. Do not prompt yes or no. Display the callout and move immediately to the next step. -->
+<!-- Use this exact format any time a required credential or data source is unavailable during an active map run. Do not stop the map. Do not prompt yes or no. Display the callout and move immediately to the next step. -->
 
 > **Missing credential: [Tool name]**
-> [Specific explanation of what data is unavailable and what that means for this particular step of the audit.]
-> This step has been skipped. Your audit continues but results in this area will be limited.
-> To add this credential and maximize your results, type `/content-audit-setup` at any time.
+> [Specific explanation of what data is unavailable and what that means for this particular step of the map.]
+> This step has been skipped. Your map continues but results in this area will be limited.
+> To add this credential and maximize your results, type `/content-map-setup` at any time.
 
-Apply this callout consistently for any missing credential at any audit layer. Never stop the audit to ask permission to continue.
+Apply this callout consistently for any missing credential at any layer. Never stop the map to ask permission to continue.
 
 ---
 
-## `/content-audit-setup` — Reconfigure at Any Time
+## `/content-map-setup` — Reconfigure at Any Time
 
 <!-- This command lets the user update any field in their configuration — not just credentials. Brand voice, ICP, audience, content goals, competitors, additional context — all of it is editable. -->
 
-When the user types `/content-audit-setup`, walk through every configuration field in order. For each field:
+When the user types `/content-map-setup`, walk through every configuration field in order. For each field:
 
 - Show the currently saved value.
 - Ask: "Keep this, update it, or skip?"
@@ -255,13 +273,13 @@ When reconfiguration is complete, save the updated config and display:
 
 > "Configuration updated and saved.
 >
-> **You can update any part of your setup at any time by typing `/content-audit-setup`. This includes credentials, brand context, audience information, competitors, and any additional context you provided.**"
+> **You can update any part of your setup at any time by typing `/content-map-setup`. This includes credentials, brand context, audience information, competitors, and any additional context you provided.**"
 
 ---
 
-## Audit Entry Points
+## Map Entry Points
 
-<!-- When the user types `/content-audit` after setup is complete, ask them one question to determine which mode to run. Route based on their answer. All three modes run through the same nine audit layers at different scales. -->
+<!-- When the user types `/content-map` after setup is complete, ask them one question to determine which mode to run. Route based on their answer. All three modes run through the same nine layers at different scales. -->
 
 Ask: "How do you want to start?
 
@@ -273,9 +291,9 @@ Route to the correct mode based on their answer.
 
 ---
 
-## The Nine Audit Layers
+## The Nine Map Layers
 
-<!-- These nine layers run in order regardless of which mode was selected. For a single asset diagnostic, each layer is scoped to that asset. For a full inventory, each layer runs across the full content set. When a data source is unavailable, display the mid-audit callout and proceed with the data that is available. -->
+<!-- These nine layers run in order regardless of which mode was selected. For a single asset diagnostic, each layer is scoped to that asset. For a full inventory, each layer runs across the full content set. When a data source is unavailable, display the mid-map callout and proceed with the data that is available. -->
 
 ---
 
@@ -330,7 +348,7 @@ What queries is this content appearing for? How does click-through rate compare 
 **Semrush — intent signal**
 What keyword clusters should this content be targeting? What is the search volume and competition for those terms? What intent are buyers expressing when they search those terms? Without this layer, keyword targeting decisions are made on assumption rather than data.
 
-Where a source is missing, display the mid-audit callout and proceed with available data.
+Where a source is missing, display the mid-map callout and proceed with available data.
 
 ---
 
@@ -417,21 +435,21 @@ Deliver a prioritized content map structured around action, not data. Every item
    - **Ungate**: Assets that are currently gated and should be converted to ungated pages with an optional PDF download
    - **Net-new**: Gaps that cannot be filled through repositioning and require new content production
 
-3. **AEO readiness summary**: Letter grade per asset audited. Flag every asset scoring D or F as a priority rehabilitation target.
+3. **AEO readiness summary**: Letter grade per asset mapped. Flag every asset scoring D or F as a priority rehabilitation target.
 
 4. **Competitor gap summary**: If Semrush was connected, flag the three to five highest-priority keyword gaps the competitor set is capturing that this program is not. Map each gap to the appropriate funnel stage and note whether an existing asset could be repositioned to compete.
 
 5. **Rationale**: Every recommendation must include a one- to two-sentence rationale. No unexplained flags. No generic advice.
 
-Close every audit output with:
+Close every map output with:
 
-> "When you are ready to extend the life of any asset through repurposing across channels — email, social, paid, event content, or partner distribution — install the Content Repurpose Skill, available in the `bonus/` folder of the content-visibility-audit repo."
+> "When you are ready to take any of these assets and rebuild them for new channels and formats — email, social, paid, event content, or partner distribution — install the Content Remix Skill, available in the `bonus/` folder of the content-map repo."
 
 ---
 
 ## Output Standards
 
-Every output, regardless of audit mode or scale, holds to the same standards:
+Every output, regardless of map mode or scale, holds to the same standards:
 
 - Recommendations are prioritized. Always. First item on the list is the highest-leverage action, not the first thing found.
 - Every recommendation has a rationale. No bare flags. If it is flagged, explain why it matters and what happens if it is ignored.
@@ -447,10 +465,10 @@ Every output, regardless of audit mode or scale, holds to the same standards:
 | User action | What happens |
 |---|---|
 | First launch with no config | Onboarding begins automatically |
-| `/content-audit` with config present | Loads config silently, goes to audit prompt |
-| `/content-audit-setup` | Opens reconfiguration for every field — credentials and brand context |
-| Skipping a required credential mid-audit | Bold callout displayed, audit continues |
+| `/content-map` with config present | Loads config silently, goes to map prompt |
+| `/content-map-setup` | Opens reconfiguration for every field — credentials and brand context |
+| Skipping a required credential mid-map | Bold callout displayed, map continues |
 | Skipping a brand config field during onboarding | Bold callout displayed, setup continues |
 | Skipping the additional context field | No flag, no friction, move forward |
 | Updating additional context via setup | Show existing content first, offer add / replace / leave as is |
-| Every setup completion | Display explicit reminder that `/content-audit-setup` is available any time |
+| Every setup completion | Display explicit reminder that `/content-map-setup` is available any time |
