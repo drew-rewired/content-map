@@ -4,6 +4,16 @@ All notable changes to the Content Visibility Audit skill are documented here.
 
 ---
 
+## [1.3] — 2026-04-04
+
+### Fixed
+- **Competitor Selection Gate — config path** — The line displaying saved competitors now correctly references `content-audit/{domain}/content-audit-config.json` instead of the bare `content-audit-config.json`.
+- **Layer 10 Step 3 — missing Keyword Gate 1** — Content Map Mode now runs both keyword gates in sequence, matching Layer 5 Part B. Keyword Gate 1 (data pull, near-win Search Console queries, organization by volume/difficulty/intent) now runs before Keyword Gate 2 (seed word approval). Previously Gate 1 was skipped entirely in this mode.
+- **Version alignment** — Header and Version Check section now both read `1.3`. `version.txt` updated to match.
+
+---
+
+
 ## [1.2] — 2026-04-04
 
 ### Added
