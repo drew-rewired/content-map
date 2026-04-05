@@ -12,7 +12,7 @@ Licensed under CC BY-NC 4.0 — free to use and modify; commercial use and resal
 
 **Slash command**: `/content-audit`
 **Reconfigure at any time**: `/content-audit-setup`
-**Version**: 1.2
+**Version**: 1.3
 
 ---
 
@@ -59,7 +59,7 @@ The operating principle: most content programs are built around creating. This o
 **On every invocation, before anything else:**
 
 1. Fetch `https://raw.githubusercontent.com/drew-rewired/content-visibility-audit/main/version.txt` using WebFetch.
-2. Compare the returned version string against the version in this file's header (`1.2`).
+2. Compare the returned version string against the version in this file's header (`1.3`).
 3. If the fetched version is newer, display this notice once and then continue normally:
 
 > "**Update available:** A newer version of this skill (v[X.X]) is available. To update, run this in your terminal:
@@ -525,7 +525,7 @@ Before running any competitor analysis, present this prompt:
 > Which would you like to do?"
 
 **Option 1 — Saved competitors:**
-Display the saved competitor list from `content-audit-config.json`. Ask the user to confirm they are still relevant or specify changes. Update the config if changes are made. Do not begin analysis until confirmed.
+Display the saved competitor list from `content-audit/{domain}/content-audit-config.json`. Ask the user to confirm they are still relevant or specify changes. Update the config if changes are made. Do not begin analysis until confirmed.
 
 **Option 2 — Manual entry:**
 Accept the list the user provides. Ask: "Would you like me to save these as your default competitors for future runs?" Update the config if yes. Do not begin analysis until the list is confirmed.
@@ -785,7 +785,9 @@ If Semrush is connected: pull keyword clusters the competitors are ranking for, 
 
 If Semrush is not connected: use Search Console queries to identify what the domain is already being found for. Use WebFetch to scan competitor resource libraries and identify topic clusters they cover. Note that keyword volume and difficulty data are unavailable.
 
-Run the same **Keyword Gate 2** seed word approval workflow from Layer 5 Part B. Do not expand keyword clusters without explicit user approval.
+First, run **Keyword Gate 1** from Layer 5 Part B: pull keyword gap data from confirmed competitor analysis, add near-win Search Console queries (impressions but position 5–20), and organize candidates by search volume, keyword difficulty, and intent. If Semrush is not connected, use Search Console query data only and note that volume and difficulty data are unavailable.
+
+Then run **Keyword Gate 2** — the seed word approval workflow from Layer 5 Part B. Do not expand keyword clusters without explicit user approval.
 
 ---
 
