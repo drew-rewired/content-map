@@ -62,7 +62,7 @@ Production is the last resort. This skill makes that principle actionable.
 
 **v1.5** — Added memory/learning system (`content-map-memory.json`); research mode for gap recommendations (explicit permission, citation blocks with Approve/Reject/Replace); internal linking architecture added to Layer 9 output and single asset diagnostic.
 
-**v1.4** — Renamed from Content Visibility Audit to Content Map. Updated slash commands to `/content-map` and `/content-map-setup`. Added Content Remix Skill to `bonus/` folder.
+**v1.4** — Renamed from Content Visibility Audit to Content Map. Updated slash commands to `/content-map` and `/content-map-setup`.
 
 **v1.3** — Config path consistency fixes across Competitor Selection Gate and Layer 10; Keyword Gate 1 now runs in Content Map Mode before Gate 2, matching the full two-gate keyword workflow from Layer 5.
 
@@ -222,10 +222,6 @@ Then restart Claude Code.
 Outputs are AI-generated and provided as-is. They may contain errors or inaccuracies. Always verify data directly in your source systems (GA4, Semrush, Google Search Console) before making decisions. The creator assumes no responsibility for outcomes resulting from use of this tool's output.
 
 ---
-
-## Bonus
-
-The Content Remix Skill is available in the `bonus/` folder of this repo — take any asset your map surfaces and rebuild it for every channel and format you need.
 
 ---
 
