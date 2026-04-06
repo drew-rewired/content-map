@@ -4,6 +4,18 @@ All notable changes to the Content Visibility Audit skill are documented here.
 
 ---
 
+## [2.1] — 2026-04-06
+
+### Fixed
+- **Full inventory and Build from Search Console routing** — Both entry points now have full routing logic defined. Previously only Single asset diagnostic was specified; selecting either of the other two modes left the skill with no instructions to follow.
+- **Layer 10 (Return Launch Menu) restored** — After Layer 9 output, skill now presents AskUserQuestion with three options: run another diagnostic, map a new domain, or update configuration. Loops back to Map Entry Points on selection.
+- **Layer 7 citation loop endpoint** — After all citations are reviewed, skill now automatically proceeds to writing gap recommendations using only approved sources. Previously the citation review had no defined continuation path.
+- **Layer 9 save instruction** — Full output is now saved to `content-map-report.md` in the current working directory. Skill confirms file path to user.
+- **YMYL detection mechanism** — Layer 6 now checks `additional_context` and `primary_audience` config fields first, then falls back to scanning domain name and Layer 1 content themes against a defined keyword list (healthcare, Medicaid, Medicare, clinical, finance, legal, etc.). YMYL flag displays at the top of Layer 6 before any asset evaluation begins.
+- **README config path corrected** — Config saves to flat `content-map-config.json` in the current working directory, not `content-map/{domain}/content-map-config.json`. README now matches skill file.
+
+---
+
 ## [2.0] — 2026-04-06
 
 ### Added

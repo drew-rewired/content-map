@@ -117,7 +117,7 @@ Restart Claude Code. Onboarding starts automatically.
 
 The only required answer is your domain. Everything else is optional — skipped steps are flagged and setup keeps moving.
 
-Configuration saves to `content-map/{domain}/content-map-config.json` in your working directory.
+Configuration saves to `content-map-config.json` in your current working directory.
 
 **After setup:** Type `/content-map` to begin. To update your configuration at any time, type `/content-map-setup`.
 

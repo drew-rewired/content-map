@@ -2,7 +2,7 @@
 
 **Slash command**: `/content-map`
 **Reconfigure at any time**: `/content-map-setup`
-**Version**: 2.0
+**Version**: 2.1
 
 ---
 
@@ -47,7 +47,7 @@ The operating principle: most content programs are built around creating. This o
 **On every invocation, before anything else:**
 
 1. Fetch `https://raw.githubusercontent.com/drew-rewired/content-map/main/version.txt` using WebFetch.
-2. Compare the returned version string against the version in this file's header (`2.0`).
+2. Compare the returned version string against the version in this file's header (`2.1`).
 3. If the fetched version is newer, display this notice once and then continue normally:
 
 > "**Update available:** A newer version of the Content Map Skill (v[X.X]) is available. To update, run this in your terminal:
@@ -287,6 +287,27 @@ Use the AskUserQuestion tool:
 
 Route to the correct mode based on their selection.
 
+---
+
+**Full inventory — what it delivers:**
+
+When a user selects "Full inventory," they will drop in their content list in any format: pasted URLs, a spreadsheet export, a CSV, a numbered list, or any other format they have available. Accept whatever is provided without requiring a specific format.
+
+Build the working inventory from that input. Run all nine layers across the full content set. Output is the complete 6-part Layer 9 report covering every asset in the inventory.
+
+If the input is ambiguous or incomplete, ask once: "I have [X] URLs — is this the full list, or should I wait for more?" Then proceed.
+
+---
+
+**Build from Search Console — what it delivers:**
+
+When a user selects "Build from Search Console":
+
+- **If Search Console is connected**: Pull the list of indexed pages from the API and build the inventory from that data. Confirm the count to the user: "I found [X] indexed pages. Building your map now." Then run all nine layers. Output is the same complete 6-part Layer 9 report.
+- **If Search Console is not connected**: Display the mid-map missing credential callout for Search Console. Then fall back: ask the user to paste in their known URLs or upload a site export. Once they provide it, build the inventory and run all nine layers. Output is the same complete Layer 9 report.
+
+---
+
 **Single asset diagnostic — what it delivers:**
 
 When a user drops in a URL or PDF, the output covers four things in order:
@@ -401,7 +422,17 @@ Google's quality signal framework. Flag if missing:
 - **Authoritativeness**: Is the content positioned as a credible source? Author attribution, organizational credibility, external references?
 - **Trustworthiness**: Are claims accurate? Are sources cited? Is the content free of manipulative framing or unsupported assertions?
 
-**YMYL flag**: If the domain is healthcare, finance, or legal, flag it before the EEAT scrub: "This domain is YMYL (Your Money or Your Life) — Google applies an elevated quality bar. Every claim must be traceable. Every credential signal must be present. Missing or thin EEAT in YMYL content is a hard quality failure, not a minor gap."
+**YMYL flag**: Before beginning any individual asset evaluation in Layer 6, determine whether the domain is YMYL. Use this detection order:
+
+1. Check the `additional_context` and `primary_audience` fields in the saved configuration. If the industry is explicitly stated, use it.
+2. If ambiguous, check the domain name and the content themes surfaced during Layer 1 inventory for any of the following terms: healthcare, health plan, health insurance, insurance, Medicaid, Medicare, clinical, medical, pharma, pharmaceutical, finance, financial, investment, legal, law, attorney.
+
+If YMYL is detected by either check, display this flag at the top of Layer 6 before any individual asset evaluation begins:
+
+> **YMYL domain detected.**
+> This domain is YMYL (Your Money or Your Life) — Google applies an elevated quality bar. Every claim must be traceable. Every credential signal must be present. Missing or thin EEAT in YMYL content is a hard quality failure, not a minor gap.
+
+If YMYL is not detected, proceed with standard EEAT evaluation without the flag.
 
 ---
 
@@ -471,7 +502,15 @@ Then use the AskUserQuestion tool for each citation:
 
 Present all citation blocks before writing a single gap recommendation. Do not weave any researched source or claim into a recommendation until it has been explicitly approved. If a source is rejected, find a replacement and re-present, or note the gap and continue without it.
 
-If **no**: proceed with structural gap identification based on inventory and funnel analysis only. No external sources used.
+**After all citations are reviewed**, proceed immediately to writing gap recommendations. Do not wait for another prompt. For each identified gap, write:
+
+- **Gap name**: What specific question does a buyer have that no existing asset answers?
+- **Funnel stage**: TOFU, MOFU, or BOFU
+- **Priority**: High / Medium / Low — include one-sentence rationale for the rating
+- **Reposition check**: Can an existing asset be reformatted or refocused to fill this gap before net-new production is considered? If yes, name the asset and the specific change needed.
+- **Sources**: If an approved source informs this gap recommendation, cite it inline. Do not use any source that was rejected or skipped.
+
+If the user selected "No, work with what we have": write the same gap recommendations using inventory and funnel analysis only. No external sources referenced.
 
 ---
 
@@ -523,9 +562,26 @@ Deliver a prioritized content map structured around action, not data. Every item
 
 6. **Rationale**: Every recommendation must include a one- to two-sentence rationale. No unexplained flags. No generic advice.
 
+After delivering all six sections, save the full output to `content-map-report.md` in the current working directory. Confirm to the user: "Your content map has been saved to `content-map-report.md` in your current directory."
+
 Close every map output with:
 
 > "When you are ready to take any of these assets and rebuild them for new channels and formats — email, social, paid, event content, or partner distribution — install the Content Remix Skill: `https://github.com/drew-rewired/content-remix`"
+
+---
+
+### Layer 10 — Return Launch Menu
+
+After the Layer 9 output has been delivered and any follow-up questions from the user are resolved, use the AskUserQuestion tool:
+
+- Question: "What would you like to do next?"
+- Options: "Run another asset diagnostic" | "Map a new domain" | "Update my configuration — /content-map-setup"
+
+**If they select "Run another asset diagnostic"**: Loop back to Map Entry Points. Load the same saved configuration. No re-onboarding.
+
+**If they select "Map a new domain"**: Ask for the new domain. Load the saved configuration and update the domain field only. Loop back to Map Entry Points.
+
+**If they select "Update my configuration — /content-map-setup"**: Run the `/content-map-setup` reconfiguration flow. When complete, loop back to Map Entry Points.
 
 ---
 
@@ -579,7 +635,8 @@ Every output, regardless of map mode or scale, holds to the same standards:
 | Layer 7 gap identification | AskUserQuestion: Yes, search online / No — work with what we have |
 | Layer 7 research approved | Search industry-specific sources. AskUserQuestion per citation: Use it / Skip it / Find a replacement |
 | Layer 7 research source rejected | Find replacement and re-present, or note gap and continue without it |
-| Layer 9 output | AEO + GEO readiness summary table: Asset | AEO Grade | GEO Grade | Top gap to fix |
+| Layer 9 output | AEO + GEO readiness summary table: Asset \| AEO Grade \| GEO Grade \| Top gap to fix. Full output saved to `content-map-report.md` in current directory. |
+| Layer 10 return menu | AskUserQuestion: Run another asset diagnostic / Map a new domain / Update my configuration |
 | Output accepted without major changes | Log to memory: approved output, domain, mode, date |
 | Edit requested by user | Log edit pattern to memory. Auto-apply after 3 occurrences. |
 | Consistent format preference detected | Surface as default in map prompt after 3 consistent choices |
