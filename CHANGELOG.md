@@ -4,6 +4,25 @@ All notable changes to the Content Visibility Audit skill are documented here.
 
 ---
 
+## [2.0] — 2026-04-06
+
+### Added
+- GEO (Generative Engine Optimization) as a third evaluation framework in Layer 6 — signal checklist: extractable answers, named entities, verifiable claims, structured prose, citations, self-contained sections. Letter grade A–F.
+- YMYL flag for healthcare, finance, and legal domains — elevated EEAT bar displayed before scrub; hard quality failure framing for missing signals.
+- User intent taxonomy (Know / Evaluate / Do) in Layer 2 funnel mapping alongside TOFU/MOFU/BOFU — flags intent mismatches (e.g., MOFU asset structured for Know intent is missing evaluation scaffolding).
+- AEO chunk density check — 200–400 word section target (~300–500 tokens); 600-word break rule flagged as chunking risk.
+- Zero-click framing in Layer 6 intro: "59% of Google searches end without a click. Being cited in an AI answer IS the distribution."
+- AskUserQuestion interactive entry points at map start (Full inventory / Build from Search Console / Single asset diagnostic).
+- AEO + GEO readiness summary table in Layer 9 output: Asset | AEO Grade | GEO Grade | Top gap to fix.
+- Layer 7 citation approval via AskUserQuestion per citation (Use it / Skip it / Find a replacement).
+
+### Changed
+- Layer 6 renamed from "EEAT and AEO Scrub" to "EEAT, AEO, and GEO Scrub."
+- Layer 9 AEO summary renamed to "AEO + GEO readiness summary."
+- Version.txt corrected from stale 1.3 to 2.0 (README badge was already 1.5; all three now aligned at 2.0).
+
+---
+
 ## [1.3] — 2026-04-04
 
 ### Fixed

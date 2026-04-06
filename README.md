@@ -9,7 +9,7 @@
 
 <br>
 
-<img src="https://img.shields.io/badge/version-1.5-000000?style=flat-square" alt="version">&nbsp;<img src="https://img.shields.io/badge/free-open%20source-111111?style=flat-square" alt="free">&nbsp;<img src="https://img.shields.io/badge/Claude%20Code-skill-CC0000?style=flat-square" alt="Claude Code skill">
+<img src="https://img.shields.io/badge/version-2.0-000000?style=flat-square" alt="version">&nbsp;<img src="https://img.shields.io/badge/free-open%20source-111111?style=flat-square" alt="free">&nbsp;<img src="https://img.shields.io/badge/Claude%20Code-skill-CC0000?style=flat-square" alt="Claude Code skill">
 
 <br>
 
@@ -57,6 +57,8 @@ Production is the last resort. This skill makes that principle actionable.
 ---
 
 ## Version highlights
+
+**v2.0** — AskUserQuestion interactive entry points (Full inventory / Search Console / Single asset diagnostic); user intent taxonomy (Know/Evaluate/Do) added to funnel mapping with mismatch flagging; GEO (Generative Engine Optimization) added as third evaluation framework in Layer 6 alongside EEAT and AEO; YMYL flag for healthcare, finance, and legal domains; AEO chunk density check (200–400 word section standard); zero-click framing (59% of searches end without a click); AEO + GEO readiness summary table in Layer 9 output; Layer 7 citation approval via AskUserQuestion per citation. Version.txt corrected from stale 1.3 to 2.0.
 
 **v1.5** — Added memory/learning system (`content-map-memory.json`); research mode for gap recommendations (explicit permission, citation blocks with Approve/Reject/Replace); internal linking architecture added to Layer 9 output and single asset diagnostic.
 
@@ -146,11 +148,11 @@ Type `/content-map` at any point to skip the menu and go straight to a full map.
 | Layer | What it does |
 |---|---|
 | 1. Content inventory | Builds the asset list from Search Console → GA4 → manual upload, in that order |
-| 2. Funnel mapping | Assigns every asset to TOFU, MOFU, or BOFU based on topic, framing, and searcher intent |
+| 2. Funnel mapping | Assigns every asset to TOFU, MOFU, or BOFU with a secondary user intent type (Know/Evaluate/Do) — flags intent mismatches |
 | 3. Gating audit | Fetches each page with WebFetch and flags every gated asset as a visibility failure |
 | 4. Three-source triangulation | Combines GA4 behavioral signal, Search Console visibility signal, and Semrush intent classification |
 | 5. Competitor gap analysis + keyword strategy | Competitor Selection Gate → gap analysis → two-gate keyword workflow with explicit approval before cluster expansion |
-| 6. EEAT + AEO scrub | Fetches and scores every page for Google quality signals (EEAT) and AI answer extractability (AEO) — 100-point rubrics, YMYL-aware |
+| 6. EEAT, AEO, and GEO scrub | Fetches and scores every page for Google quality signals (EEAT), AI answer extractability (AEO), and Generative Engine Optimization (GEO) — YMYL flag for healthcare, finance, and legal domains |
 | 7. Gap identification | Maps what is missing in the sequence a buyer would actually follow |
 | 8. Repurposing layer | Checks whether existing assets can fill gaps before recommending net-new production |
 | 9. Output | Prioritized action plan: fix → reposition → ungate → produce. Saves as `content-map-report.md` |
@@ -173,15 +175,17 @@ No competitor analysis begins until you confirm the set.
 
 ---
 
-## EEAT + AEO scoring
+## EEAT, AEO, and GEO scoring
 
-Every asset is scored on two independent 100-point rubrics.
+Every asset is scored across three frameworks.
 
-**EEAT** (Expertise, Experience, Authoritativeness, Trustworthiness) — 25 points per dimension. YMYL content (health, finance, legal, safety) is held to stricter passing thresholds. Non-YMYL programs skip per-asset YMYL detection and apply standard thresholds across the board.
+**EEAT** (Experience, Expertise, Authoritativeness, Trustworthiness) — 25 points per dimension. Experience is flagged separately as the most commonly missing signal in B2B content. YMYL content (health, finance, legal, safety) triggers an elevated quality bar — missing or thin EEAT in YMYL domains is treated as a hard quality failure.
 
-**AEO** (Answer Engine Optimization) — Six signals scored Full / Partial / None: declarative headers, paragraph density, self-contained sections, schema markup, answer-first structure, and inline term definitions.
+**AEO** (Answer Engine Optimization) — Six signals scored Full / Partial / None: declarative headers, paragraph density, self-contained sections, schema markup, answer-first structure, and inline term definitions. Chunk density check: sections should be 200–400 words; sections over 600 words without a structured break risk unpredictable AI chunking.
 
-Each asset receives a letter grade (A–F) on both frameworks and a priority flag: Immediate, Moderate, Monitor, or Pass.
+**GEO** (Generative Engine Optimization) — Signals for citation by AI-powered tools (ChatGPT, Perplexity, Google AI Overviews, Gemini): direct extractable answers, named entity references, verifiable factual claims, structured prose, citations present, and self-contained sections.
+
+Each asset receives a letter grade (A–F) on all three frameworks. Layer 9 output includes an AEO + GEO readiness summary table: Asset | AEO Grade | GEO Grade | Top gap to fix.
 
 ---
 

@@ -2,7 +2,7 @@
 
 **Slash command**: `/content-map`
 **Reconfigure at any time**: `/content-map-setup`
-**Version**: 1.5
+**Version**: 2.0
 
 ---
 
@@ -47,7 +47,7 @@ The operating principle: most content programs are built around creating. This o
 **On every invocation, before anything else:**
 
 1. Fetch `https://raw.githubusercontent.com/drew-rewired/content-map/main/version.txt` using WebFetch.
-2. Compare the returned version string against the version in this file's header (`1.5`).
+2. Compare the returned version string against the version in this file's header (`2.0`).
 3. If the fetched version is newer, display this notice once and then continue normally:
 
 > "**Update available:** A newer version of the Content Map Skill (v[X.X]) is available. To update, run this in your terminal:
@@ -281,13 +281,11 @@ When reconfiguration is complete, save the updated config and display:
 
 <!-- When the user types `/content-map` after setup is complete, ask them one question to determine which mode to run. Route based on their answer. All three modes run through the same nine layers at different scales. -->
 
-Ask: "How do you want to start?
+Use the AskUserQuestion tool:
+- Question: "How do you want to start?"
+- Options: "Full inventory — I'll drop in my content list" | "Build from Search Console — start with a few URLs" | "Single asset diagnostic — one URL or PDF"
 
-- **Full inventory**: Drop in your complete content inventory as a CSV, spreadsheet, or list of URLs. I will map everything.
-- **Build from Search Console**: Paste in a few URLs you know about. I will use Search Console data to surface indexed pages and build the inventory from there.
-- **Single asset diagnostic**: Share one URL or upload one PDF. I will place it in the funnel, show which existing resources connect to it, run EEAT and AEO scoring, and deliver a specific internal linking architecture for that asset."
-
-Route to the correct mode based on their answer.
+Route to the correct mode based on their selection.
 
 **Single asset diagnostic — what it delivers:**
 
@@ -295,7 +293,7 @@ When a user drops in a URL or PDF, the output covers four things in order:
 
 1. **Funnel placement**: Which stage does this asset belong to — TOFU, MOFU, or BOFU? Rationale based on topic, framing, and searcher intent.
 2. **Resource connections**: Which existing assets in the content program connect to this one? What should link to it (upstream) and what should it link to (downstream)?
-3. **EEAT and AEO score**: Letter grade on both frameworks. Specific failures flagged with fix instructions.
+3. **EEAT, AEO, and GEO score**: Letter grade on all three frameworks. Specific failures flagged with fix instructions.
 4. **Internal linking map**: A precise table — which pages should link to this asset with what anchor text, and which pages this asset should link out to with what anchor text. Five to ten highest-leverage link relationships flagged as priority.
 
 If no prior map exists for this domain, the resource connections and linking map will be limited to assets the user can supply. Prompt the user to paste in a list of their other content URLs if needed.
@@ -318,15 +316,23 @@ The goal: a working list of every content asset before anything else is evaluate
 
 ### Layer 2 — Funnel Mapping
 
-Categorize every asset in the inventory as TOFU, MOFU, or BOFU based on topic, framing, and searcher intent.
+Categorize every asset in the inventory as TOFU, MOFU, or BOFU based on topic, framing, and searcher intent. For each asset, also assign a secondary classification: the dominant **user intent type**.
 
+**Funnel stage:**
 - **TOFU**: Awareness. The buyer knows they have a problem but is not yet evaluating vendors. Educational, definitional, industry-trend content.
 - **MOFU**: Evaluation. The buyer is actively researching solutions. Comparative content, guides, frameworks, best practices, vendor evaluation tools.
 - **BOFU**: Decision. The buyer is close to a purchase decision. Case studies, ROI proofs, product-specific content, demos.
 
-Flag any stage that is thin or broken. A broken or empty MOFU is more urgent than a missing BOFU. Show the impact: if the middle of the funnel is empty or gated, top-of-funnel investment does not convert. Buyers cannot move forward.
+**User intent type:**
+- **Know**: The buyer wants to understand something. Definitions, explanations, industry trends, "what is X" content. Typical in TOFU.
+- **Evaluate**: The buyer wants to compare options or build a case. Guides, frameworks, comparison tools, best practices. Typical in MOFU.
+- **Do**: The buyer wants to take a specific action. Demos, trials, "speak to an expert," ROI calculators. Typical in BOFU.
 
-Output a funnel map showing count per stage and flagging structural gaps.
+**Flag mismatches:** A MOFU asset structured for Know intent is missing the evaluation scaffolding buyers need at that stage — it educates but does not help them decide. A BOFU asset structured for Evaluate intent delays the conversion action. Mismatches are structural gaps even when the topic coverage looks correct.
+
+Flag any funnel stage that is thin or broken. A broken or empty MOFU is more urgent than a missing BOFU. Show the impact: if the middle of the funnel is empty or gated, top-of-funnel investment does not convert. Buyers cannot move forward.
+
+Output a funnel map showing count per stage and intent type, flagging structural gaps and intent mismatches.
 
 ---
 
@@ -378,25 +384,55 @@ For every identified gap, flag:
 
 ---
 
-### Layer 6 — EEAT and AEO Scrub
+### Layer 6 — EEAT, AEO, and GEO Scrub
 
-Evaluate every asset against two frameworks simultaneously.
+Evaluate every asset against three frameworks simultaneously.
 
-**EEAT** (Google's quality signal framework):
+**Why this matters:** 59% of Google searches now end without a click. For AI-powered search — ChatGPT, Perplexity, Google AI Overviews — the rate is higher. Being cited in an AI answer IS the distribution. Ranking is no longer enough. Content that fails EEAT, AEO, or GEO doesn't appear in the research layer buyers use to build vendor shortlists — often before they ever visit a website directly.
 
-- **Expertise**: Does the content demonstrate genuine subject matter expertise? Is there evidence of first-hand knowledge, original data, or credible sourcing?
-- **Experience**: Does the content reflect real-world experience with the topic? Not just academic description — demonstrated familiarity with how this plays out in practice.
-- **Authoritativeness**: Is the content positioned as a credible source? Do other credible sources reference it or link to it?
-- **Trustworthiness**: Is the content accurate, transparent about its claims, and free of manipulative framing?
+---
 
-**AEO readiness** (Structured for AI-generated answer extraction):
+**EEAT — E-E-A-T (Experience, Expertise, Authoritativeness, Trustworthiness)**
 
-- Are H2 and H3 headers declarative — do they answer a specific question directly rather than label a section generically?
-- Are paragraphs short enough (two to three sentences per point) to be extracted as standalone answers without losing meaning?
-- Is each section self-contained — can a reader or language model extract it without needing the surrounding context to understand the point?
-- Is the content schema-marked appropriately for the content type (Article, HowTo, FAQPage, etc.)?
+Google's quality signal framework. Flag if missing:
 
-Score each asset with a letter grade (A through F) across both frameworks. Flag failures and prioritize rehabilitation. Remind the user: content that fails EEAT and AEO is invisible to both Google and AI-generated answers. It does not appear in the research layer buyers use to form vendor shortlists.
+- **Experience**: Does the content reflect real-world, first-hand familiarity with the topic — not just academic description? Can the reader tell this was written by someone who has actually done this? *(This is the most commonly missing signal in B2B content. Describing a topic is not the same as demonstrating experience with it.)*
+- **Expertise**: Does the content demonstrate genuine subject matter expertise? Original data, credible sourcing, or depth that goes beyond surface research?
+- **Authoritativeness**: Is the content positioned as a credible source? Author attribution, organizational credibility, external references?
+- **Trustworthiness**: Are claims accurate? Are sources cited? Is the content free of manipulative framing or unsupported assertions?
+
+**YMYL flag**: If the domain is healthcare, finance, or legal, flag it before the EEAT scrub: "This domain is YMYL (Your Money or Your Life) — Google applies an elevated quality bar. Every claim must be traceable. Every credential signal must be present. Missing or thin EEAT in YMYL content is a hard quality failure, not a minor gap."
+
+---
+
+**AEO — Answer Engine Optimization**
+
+Structured for AI-generated answer extraction. Flag if missing:
+
+- H2/H3 headers are declarative — they answer a question or make a direct statement, not just label a section generically
+- Paragraphs are two to three sentences max
+- Each section is self-contained — can a reader or language model extract it without needing surrounding context?
+- Content is schema-marked appropriately for the content type (Article, HowTo, FAQPage, etc.)
+- Answer appears before supporting detail — not buried at the end of a long paragraph
+- Sections are 200–400 words (~300–500 tokens). Sections over 600 words without a structured break risk being chunked unpredictably by AI systems.
+- Each major section includes at least one structured, extractable element: TLDR block, Q&A pair, Definition Block, numbered/bulleted list, or comparison table
+
+---
+
+**GEO — Generative Engine Optimization**
+
+Optimization for citation by AI-powered discovery tools: Google AI Overviews, ChatGPT, Perplexity, Gemini, and others. Flag if missing:
+
+- Direct extractable answer present in each major section — a reader or AI can pull the key point without reading the full section
+- Named entities referenced — specific people, organizations, products, and studies rather than generic references
+- Factual claims are specific and verifiable — dates, numbers, named outcomes, not vague generalizations
+- Structured prose: short sentences, parallel structure, no buried main points
+- Citations or source references present where claims are made
+- Each section is self-contained for extraction
+
+---
+
+Score each asset with a letter grade (A through F) across all three frameworks. Flag failures and prioritize rehabilitation. Label each finding: [EEAT — Experience], [EEAT — Expertise], [EEAT — Trustworthiness], [AEO], [GEO], or [YMYL].
 
 ---
 
@@ -414,25 +450,26 @@ Always address broken MOFU gaps before missing BOFU assets. A buyer who cannot e
 
 **Research mode — gap filling:**
 
-After identifying gaps, ask the user once per run:
-
-> "I've identified [X] gaps in your funnel. Would you like me to go online and search for current, industry-specific content topics to help fill them? I'll find sources relevant to your space and present everything for your review before using anything in recommendations.
->
-> Go online for research? **Yes / No**"
+After identifying gaps, use the AskUserQuestion tool once per run:
+- Question: "I've identified [X] gaps in your funnel. Would you like me to search online for current, industry-specific sources to help fill them?"
+- Options: "Yes, search online" | "No — work with what we have"
 
 If **yes**: search for content topics, angles, and supporting evidence specific to the user's industry and domain context (derived from config and the topics surfaced in the gap analysis). A healthcare company gets healthcare sources. A B2B SaaS company gets B2B SaaS sources. Do not pull generic content marketing or SEO statistics unless the domain is specifically about marketing.
 
-For every piece of research found, present a citation block before using anything:
+For every piece of research found, display the citation block first:
 
 ```
 SOURCE: [Publication or organization name]
 URL: [Full URL]
 TOPIC OR CLAIM: [What this source covers or claims]
 RELEVANCE: [Why this fills or informs the identified gap]
-ACTION: ✅ Use this  ❌ Skip  ✏️ Find a replacement
 ```
 
-Present all citation blocks together before writing a single gap recommendation. Wait for the user to action every item. Do not weave any researched source or claim into a recommendation until it has been explicitly approved. If a source is rejected, find a replacement and re-present, or note the gap and continue without it.
+Then use the AskUserQuestion tool for each citation:
+- Question: "What should I do with this source?"
+- Options: "Use it" | "Skip it" | "Find a replacement"
+
+Present all citation blocks before writing a single gap recommendation. Do not weave any researched source or claim into a recommendation until it has been explicitly approved. If a source is rejected, find a replacement and re-present, or note the gap and continue without it.
 
 If **no**: proceed with structural gap identification based on inventory and funnel analysis only. No external sources used.
 
@@ -465,12 +502,12 @@ Deliver a prioritized content map structured around action, not data. Every item
 
 2. **Prioritized action list**: Organized by urgency. Use these four categories:
 
-   - **Fix first**: Assets that are broken, gated, or failing EEAT/AEO in a high-traffic, high-stakes position
+   - **Fix first**: Assets that are broken, gated, or failing EEAT/AEO/GEO in a high-traffic, high-stakes position
    - **Reposition**: Assets that should be reformatted or refocused to fill an identified gap
    - **Ungate**: Assets that are currently gated and should be converted to ungated pages with an optional PDF download
    - **Net-new**: Gaps that cannot be filled through repositioning and require new content production
 
-3. **AEO readiness summary**: Letter grade per asset mapped. Flag every asset scoring D or F as a priority rehabilitation target.
+3. **AEO + GEO readiness summary**: Letter grade per asset mapped across both frameworks. Format as a table: Asset | AEO Grade | GEO Grade | Top gap to fix. Flag every asset scoring D or F on either framework as a priority rehabilitation target.
 
 4. **Internal linking architecture**: Deliver a specific linking map derived from the funnel structure identified in Layers 2 and 7. For every asset in the inventory, specify:
 
@@ -529,6 +566,7 @@ Every output, regardless of map mode or scale, holds to the same standards:
 |---|---|
 | First launch with no config | Onboarding begins automatically |
 | `/content-map` with config present | Loads config and memory silently, goes to map prompt |
+| Map Entry Points | AskUserQuestion: Full inventory / Build from Search Console / Single asset diagnostic (3 options) |
 | `/content-map-setup` | Opens reconfiguration for every field — credentials and brand context |
 | `/content-map-reset-memory` | Clears `content-map-memory.json`, confirms to user, config is not affected |
 | Skipping a required credential mid-map | Bold callout displayed, map continues |
@@ -536,9 +574,12 @@ Every output, regardless of map mode or scale, holds to the same standards:
 | Skipping the additional context field | No flag, no friction, move forward |
 | Updating additional context via setup | Show existing content first, offer add / replace / leave as is |
 | Every setup completion | Display explicit reminder that `/content-map-setup` is available any time |
-| Layer 7 gap identification | Ask once per run if user wants research mode — explicit yes or no required |
-| Research approved | Search industry-specific sources, present citation blocks, wait for approval before using |
-| Research source rejected | Find replacement and re-present, or note gap and continue without it |
+| Layer 2 funnel mapping | Assigns TOFU/MOFU/BOFU + user intent type (Know/Evaluate/Do). Flags intent mismatches. |
+| Layer 6 EEAT/AEO/GEO scrub | Evaluates all three frameworks. YMYL flag for healthcare/finance/legal. Labels each finding by framework. |
+| Layer 7 gap identification | AskUserQuestion: Yes, search online / No — work with what we have |
+| Layer 7 research approved | Search industry-specific sources. AskUserQuestion per citation: Use it / Skip it / Find a replacement |
+| Layer 7 research source rejected | Find replacement and re-present, or note gap and continue without it |
+| Layer 9 output | AEO + GEO readiness summary table: Asset | AEO Grade | GEO Grade | Top gap to fix |
 | Output accepted without major changes | Log to memory: approved output, domain, mode, date |
 | Edit requested by user | Log edit pattern to memory. Auto-apply after 3 occurrences. |
 | Consistent format preference detected | Surface as default in map prompt after 3 consistent choices |
