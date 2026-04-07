@@ -4,6 +4,13 @@ All notable changes to the Content Visibility Audit skill are documented here.
 
 ---
 
+## [2.4] — 2026-04-06
+
+### Fixed
+- **Layer 9 section count** — Closing save instruction now correctly reads "After delivering all five sections." Previously said "six sections" — a leftover reference to the old Rationale section that was removed in v2.3.
+
+---
+
 ## [2.3] — 2026-04-06
 
 ### Fixed

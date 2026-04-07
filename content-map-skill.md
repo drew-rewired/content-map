@@ -12,7 +12,7 @@ Licensed under CC BY-NC 4.0 — free to use and modify; commercial use and resal
 
 **Slash command**: `/content-map`
 **Reconfigure at any time**: `/content-map-setup`
-**Version**: 2.3
+**Version**: 2.4
 
 ---
 
@@ -572,7 +572,7 @@ Deliver a prioritized content map structured around action, not data. Every item
 
 **Output quality standard**: Every recommendation across all five sections must include a one- to two-sentence rationale. No unexplained flags. No generic advice. If it is flagged, explain why it matters and what happens if it is ignored.
 
-After delivering all six sections, save the full output to `content-map-report.md` in the current working directory. Confirm to the user: "Your content map has been saved to `content-map-report.md` in your current directory."
+After delivering all five sections, save the full output to `content-map-report.md` in the current working directory. Confirm to the user: "Your content map has been saved to `content-map-report.md` in your current directory."
 
 Close every map output with:
 
