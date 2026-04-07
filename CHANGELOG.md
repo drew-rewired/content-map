@@ -4,6 +4,13 @@ All notable changes to the Content Visibility Audit skill are documented here.
 
 ---
 
+## [2.2] — 2026-04-06
+
+### Fixed
+- **Single asset diagnostic scope clarified** — All nine layers run for single asset diagnostic mode (scoped to the one asset), but only four outputs are surfaced to the user. Layers 3, 4, and 5 run in the background to inform those outputs. Previously the relationship between the layer runner and the four visible outputs was ambiguous.
+
+---
+
 ## [2.1] — 2026-04-06
 
 ### Fixed

@@ -2,7 +2,7 @@
 
 **Slash command**: `/content-map`
 **Reconfigure at any time**: `/content-map-setup`
-**Version**: 2.1
+**Version**: 2.2
 
 ---
 
@@ -47,7 +47,7 @@ The operating principle: most content programs are built around creating. This o
 **On every invocation, before anything else:**
 
 1. Fetch `https://raw.githubusercontent.com/drew-rewired/content-map/main/version.txt` using WebFetch.
-2. Compare the returned version string against the version in this file's header (`2.1`).
+2. Compare the returned version string against the version in this file's header (`2.2`).
 3. If the fetched version is newer, display this notice once and then continue normally:
 
 > "**Update available:** A newer version of the Content Map Skill (v[X.X]) is available. To update, run this in your terminal:
@@ -323,7 +323,7 @@ If no prior map exists for this domain, the resource connections and linking map
 
 ## The Nine Map Layers
 
-<!-- These nine layers run in order regardless of which mode was selected. For a single asset diagnostic, each layer is scoped to that asset. For a full inventory, each layer runs across the full content set. When a data source is unavailable, display the mid-map callout and proceed with the data that is available. -->
+<!-- These nine layers run in order regardless of which mode was selected. For a full inventory or Build from Search Console mode, each layer runs across the full content set and produces the complete 6-part Layer 9 report. For a single asset diagnostic, all nine layers still run — but each is scoped to that one asset. The four outputs listed in the Single asset diagnostic section are the visible result of running all nine layers scoped to a single asset — funnel placement (Layer 2), resource connections (Layers 1 + 7 + 8), EEAT/AEO/GEO score (Layer 6), and internal linking map (Layer 9). Layers 3, 4, and 5 run in the background to inform those outputs but are not surfaced as separate report sections for a single asset diagnostic. When a data source is unavailable, display the mid-map callout and proceed with the data that is available. -->
 
 ---
 
