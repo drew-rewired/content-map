@@ -4,6 +4,15 @@ All notable changes to the Content Visibility Audit skill are documented here.
 
 ---
 
+## [2.3] — 2026-04-06
+
+### Fixed
+- **Layer 7/8 reposition check overlap** — Layer 7 gap writing now includes a quick reposition flag only ("yes/no — Layer 8 runs the full analysis"). Previously the Layer 7 endpoint block included detailed reposition instructions that duplicated Layer 8's primary function, creating ambiguity about which layer does the work.
+- **Layer 9 Rationale reworded** — Output quality standard is now a bolded standard beneath section 5, not a numbered deliverable section. Previously listed as "section 6: Rationale," implying users would receive a separate Rationale section in their output.
+- **Copyright notice and disclaimer added** — Consistent with content-remix. CC BY-NC 4.0 license, AI output disclaimer, creator attribution.
+
+---
+
 ## [2.2] — 2026-04-06
 
 ### Fixed

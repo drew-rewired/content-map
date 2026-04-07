@@ -1,8 +1,18 @@
+---
+**© Rewired. Created by Drew Martinez · drewmartinez.io**
+This copyright notice must be preserved in all copies and derivative works, without exception.
+Licensed under CC BY-NC 4.0 — free to use and modify; commercial use and resale prohibited.
+---
+
+**Disclaimer:** This tool is free to use and provided as-is. Outputs are AI-generated and may contain errors or inaccuracies. Always review and edit generated recommendations before acting on them. The creator assumes no responsibility for outcomes resulting from use of this tool's output.
+
+---
+
 # Content Map Skill
 
 **Slash command**: `/content-map`
 **Reconfigure at any time**: `/content-map-setup`
-**Version**: 2.2
+**Version**: 2.3
 
 ---
 
@@ -47,7 +57,7 @@ The operating principle: most content programs are built around creating. This o
 **On every invocation, before anything else:**
 
 1. Fetch `https://raw.githubusercontent.com/drew-rewired/content-map/main/version.txt` using WebFetch.
-2. Compare the returned version string against the version in this file's header (`2.2`).
+2. Compare the returned version string against the version in this file's header (`2.3`).
 3. If the fetched version is newer, display this notice once and then continue normally:
 
 > "**Update available:** A newer version of the Content Map Skill (v[X.X]) is available. To update, run this in your terminal:
@@ -507,7 +517,7 @@ Present all citation blocks before writing a single gap recommendation. Do not w
 - **Gap name**: What specific question does a buyer have that no existing asset answers?
 - **Funnel stage**: TOFU, MOFU, or BOFU
 - **Priority**: High / Medium / Low — include one-sentence rationale for the rating
-- **Reposition check**: Can an existing asset be reformatted or refocused to fill this gap before net-new production is considered? If yes, name the asset and the specific change needed.
+- **Reposition flag**: Note whether an existing asset could potentially fill this gap. Full repositioning analysis runs in Layer 8 — do not write specific instructions here, just flag yes or no.
 - **Sources**: If an approved source informs this gap recommendation, cite it inline. Do not use any source that was rejected or skipped.
 
 If the user selected "No, work with what we have": write the same gap recommendations using inventory and funnel analysis only. No external sources referenced.
@@ -560,7 +570,7 @@ Deliver a prioritized content map structured around action, not data. Every item
 
 5. **Competitor gap summary**: If Semrush was connected, flag the three to five highest-priority keyword gaps the competitor set is capturing that this program is not. Map each gap to the appropriate funnel stage and note whether an existing asset could be repositioned to compete.
 
-6. **Rationale**: Every recommendation must include a one- to two-sentence rationale. No unexplained flags. No generic advice.
+**Output quality standard**: Every recommendation across all five sections must include a one- to two-sentence rationale. No unexplained flags. No generic advice. If it is flagged, explain why it matters and what happens if it is ignored.
 
 After delivering all six sections, save the full output to `content-map-report.md` in the current working directory. Confirm to the user: "Your content map has been saved to `content-map-report.md` in your current directory."
 
