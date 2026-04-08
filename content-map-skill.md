@@ -12,7 +12,7 @@ Licensed under CC BY-NC 4.0 — free to use and modify; commercial use and resal
 
 **Slash command**: `/content-map`
 **Reconfigure at any time**: `/content-map-setup`
-**Version**: 2.4
+**Version**: 2.5
 
 ---
 
@@ -57,7 +57,7 @@ The operating principle: most content programs are built around creating. This o
 **On every invocation, before anything else:**
 
 1. Fetch `https://raw.githubusercontent.com/drew-rewired/content-map/main/version.txt` using WebFetch.
-2. Compare the returned version string against the version in this file's header (`2.3`).
+2. Compare the returned version string against the version in this file's header (`2.5`).
 3. If the fetched version is newer, display this notice once and then continue normally:
 
 > "**Update available:** A newer version of the Content Map Skill (v[X.X]) is available. To update, run this in your terminal:
@@ -396,13 +396,40 @@ What queries is this content appearing for? How does click-through rate compare 
 **Semrush — intent signal**
 What keyword clusters should this content be targeting? What is the search volume and competition for those terms? What intent are buyers expressing when they search those terms? Without this layer, keyword targeting decisions are made on assumption rather than data.
 
+**How to call the Semrush API (Bash tool only — do not use WebFetch, which is blocked by Semrush):**
+
+Read `semrush.api_key` from `content-map-config.json`. For each content topic or keyword cluster being analyzed, run the following using the Bash tool, substituting the saved API key and the target keyword:
+
+Keyword volume and difficulty:
+```
+curl -s "https://api.semrush.com/?type=phrase_this&key={API_KEY}&phrase={KEYWORD}&database=us&export_columns=Ph,Nq,Cp,Kd"
+```
+
+Related keywords:
+```
+curl -s "https://api.semrush.com/?type=phrase_related&key={API_KEY}&phrase={KEYWORD}&database=us&display_limit=10&export_columns=Ph,Nq,Kd"
+```
+
+Question-based keywords:
+```
+curl -s "https://api.semrush.com/?type=phrase_questions&key={API_KEY}&phrase={KEYWORD}&database=us&display_limit=8&export_columns=Ph,Nq,Kd"
+```
+
+Responses are semicolon-delimited CSV. Row 1 is the header. Parse volume (Nq) and keyword difficulty (Kd) from each data row. Use these to map intent, volume, and competition level for each asset's target keyword clusters. Label all data sourced from these calls as `[Semrush]` in the output.
+
 Where a source is missing, display the mid-map callout and proceed with available data.
 
 ---
 
 ### Layer 5 — Competitor Content Gap Analysis
 
-**If Semrush is connected**: Use the API to identify keyword clusters and content angles competitors are ranking for that this content program is not covering. Map gaps to funnel stages. Flag which gaps represent the highest strategic risk relative to the brand's stated content goals.
+**If Semrush is connected**: Read `semrush.api_key` and `competitors` from `content-map-config.json`. For each competitor domain, run the following using the Bash tool (do not use WebFetch):
+
+```
+curl -s "https://api.semrush.com/?type=domain_organic&key={API_KEY}&domain={COMPETITOR_DOMAIN}&database=us&display_limit=20&export_columns=Ph,Po,Nq,Kd,Ur"
+```
+
+Response is semicolon-delimited CSV: keyword, position, volume, KD, URL. Parse the top 20 organic keywords per competitor. Cross-reference against the content inventory to identify gaps — keywords competitors rank for that no asset in this program currently targets. Map each gap to the appropriate funnel stage. Label all data sourced from these calls as `[Semrush]` in the output.
 
 **If Semrush is not connected**: Conduct a structural analysis of competitor content based on the domains provided in setup. Identify content categories they publish that this program does not cover. Note this analysis is structural rather than data-driven — keyword volumes and ranking data are not available.
 

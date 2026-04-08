@@ -4,6 +4,13 @@ All notable changes to the Content Visibility Audit skill are documented here.
 
 ---
 
+## [2.5] — 2026-04-08
+
+### Fixed
+- **Semrush API calls — Bash instead of WebFetch** — Layers 4 and 5 now explicitly instruct Claude to use the Bash tool with curl to call the Semrush API. WebFetch is blocked by Semrush's servers; curl is not. The API key is read from `semrush.api_key` in the saved config at runtime. No personal data stored in the skill file.
+
+---
+
 ## [2.4] — 2026-04-06
 
 ### Fixed
