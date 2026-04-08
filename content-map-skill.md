@@ -12,7 +12,7 @@ Licensed under CC BY-NC 4.0 — free to use and modify; commercial use and resal
 
 **Slash command**: `/content-map`
 **Reconfigure at any time**: `/content-map-setup`
-**Version**: 2.5
+**Version**: 2.6
 
 ---
 
@@ -56,8 +56,8 @@ The operating principle: most content programs are built around creating. This o
 
 **On every invocation, before anything else:**
 
-1. Fetch `https://raw.githubusercontent.com/drew-rewired/content-map/main/version.txt` using WebFetch.
-2. Compare the returned version string against the version in this file's header (`2.5`).
+1. Use the Bash tool to run: `curl -s https://raw.githubusercontent.com/drew-rewired/content-map/main/version.txt`
+2. Compare the returned version string against the version in this file's header (`2.6`).
 3. If the fetched version is newer, display this notice once and then continue normally:
 
 > "**Update available:** A newer version of the Content Map Skill (v[X.X]) is available. To update, run this in your terminal:
@@ -66,7 +66,7 @@ The operating principle: most content programs are built around creating. This o
 > ```
 > Then restart Claude Code. You can continue using this session without updating."
 
-4. If the fetch fails, versions match, or this version is ahead of remote: display nothing. Continue silently.
+4. If the curl command fails, versions match, or this version is ahead of remote: display nothing. Continue silently.
 
 ---
 

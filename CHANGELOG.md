@@ -4,6 +4,13 @@ All notable changes to the Content Visibility Audit skill are documented here.
 
 ---
 
+## [2.6] — 2026-04-08
+
+### Fixed
+- **Version check — Bash instead of WebFetch** — Update detection now runs via `curl` using the Bash tool. WebFetch silently fails on raw.githubusercontent.com in some environments, causing the update notice to never appear. Bash/curl is reliable.
+
+---
+
 ## [2.5] — 2026-04-08
 
 ### Fixed
